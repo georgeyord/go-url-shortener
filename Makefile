@@ -6,4 +6,7 @@ deps:
 run: deps
 	go run $(PATH_SRC)/*
 
-.PHONY: deps run
+test: deps
+	go test -v $(PATH_SRC)
+
+.PHONY: deps run test
