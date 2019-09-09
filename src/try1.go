@@ -6,6 +6,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/logrusorgru/aurora"
 	"github.com/pkg/errors"
 )
 
@@ -30,5 +31,5 @@ func main() {
 	if name == "" {
 		handleError("Name is required")
 	}
-	fmt.Printf("Hello %s!\n", strings.Title(name))
+	fmt.Println(aurora.Green(fmt.Sprintf("Hello %s!\n", strings.Title(name))))
 }
