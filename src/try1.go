@@ -14,7 +14,8 @@ func handleError(message string) {
 	panic(errors.New(fmt.Sprintf("Error: %s", message)))
 }
 
-func getName() (name string) {
+func getNameInput() (name string) {
+	fmt.Println("Please enter your name.")
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
 		return strings.TrimSpace(scanner.Text())
@@ -25,11 +26,15 @@ func getName() (name string) {
 	return
 }
 
-func main() {
-	fmt.Println("Please enter your name.")
-	name := getName()
+func getHelloWorldMessage(name string) string {
 	if name == "" {
 		handleError("Name is required")
 	}
-	fmt.Println(aurora.Green(fmt.Sprintf("Hello %s!\n", strings.Title(name))))
+
+	return fmt.Sprintf("Hello %s!", strings.Title(name))
+}
+
+func main() {
+	name := getNameInput()
+	fmt.Println(aurora.Green(getHelloWorldMessage(name)))
 }
