@@ -1,7 +1,7 @@
-FROM golang:1.13.0
+# Used in both stages
+ARG OS_VERSION=buster
 
-# Set the Current Working Directory inside the container
-WORKDIR /app
+FROM golang:1.13-${OS_VERSION} as builder
 
 # Set the Current Working Directory inside the container
 WORKDIR /app
@@ -20,5 +20,10 @@ COPY . .
 RUN make test
 RUN make build-helloworld-cmd
 
+FROM debian:${OS_VERSION}
+
+WORKDIR /app/bin
+COPY --from=builder /app/bin/* .
+
 # Command to run the executable
-CMD ["./bin/helloworld"]
+CMD ["/app/bin/helloworld"]
