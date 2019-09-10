@@ -11,7 +11,7 @@ import (
 )
 
 func GetNameInput() (name string) {
-	fmt.Println("Please enter your name.")
+	fmt.Print(aurora.Cyan("Please enter your name: "))
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
 		return strings.TrimSpace(scanner.Text())
@@ -36,5 +36,5 @@ func getHelloWorldMessage(name string) string {
 
 func main() {
 	name := GetNameInput()
-	fmt.Println(aurora.Green(getHelloWorldMessage(name)))
+	fmt.Println(aurora.Magenta(getHelloWorldMessage(name)))
 }

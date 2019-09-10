@@ -1,17 +1,20 @@
 GO_EXECUTABLES=$(shell go env GOPATH)/bin
 PATH_SRC=./src
 
+clean:
+	@rm -r ./bin
+
 deps:
-	@go get -v $(PATH_SRC)
+	@go mod download
 
-install-cli: deps
-	@go install $(PATH_SRC)/helloworld-cli.go
+build-helloworld-cmd:
+	@go build -o ./bin/helloworld ./cmd/helloworld/main.go
 
-run-cli: deps
-	@go run $(PATH_SRC)/helloworld-cli.go
+run-helloworld-cmd:
+	@go run ./cmd/helloworld/main.go
 
-test: deps
-	@$(GO_EXECUTABLES)/gotest -v $(PATH_SRC)
+test:
+	@$(GO_EXECUTABLES)/gotest -v github.com/georgeyord/go-scrumpoker-api/cmd/helloworld
 
 test_deps:
 	@go get -u github.com/rakyll/gotest
