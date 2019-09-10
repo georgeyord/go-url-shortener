@@ -10,11 +10,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-func handleError(message string) {
-	panic(errors.New(fmt.Sprintf("Error: %s", message)))
-}
-
-func getNameInput() (name string) {
+func GetNameInput() (name string) {
 	fmt.Println("Please enter your name.")
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
@@ -26,6 +22,10 @@ func getNameInput() (name string) {
 	return
 }
 
+func handleError(message string) {
+	panic(errors.New(fmt.Sprintf("Error: %s", message)))
+}
+
 func getHelloWorldMessage(name string) string {
 	if name == "" {
 		handleError("Name is required")
@@ -35,6 +35,6 @@ func getHelloWorldMessage(name string) string {
 }
 
 func main() {
-	name := getNameInput()
+	name := GetNameInput()
 	fmt.Println(aurora.Green(getHelloWorldMessage(name)))
 }
