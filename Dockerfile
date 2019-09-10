@@ -19,11 +19,14 @@ COPY . .
 # Build the Go app
 RUN make test
 RUN make build-helloworld-cmd
+RUN make build-scrumpoker-api
 
 FROM debian:${OS_VERSION}
 
 WORKDIR /app/bin
-COPY --from=builder /app/bin/* .
+COPY --from=builder /app/bin/* ./
+
+EXPOSE 8080
 
 # Command to run the executable
-CMD ["/app/bin/helloworld"]
+CMD ["/app/bin/scrumpoker-api"]
