@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  helloworld:
+    image: github.com/georgeyord/go-scrumpoker-api/helloworld:latest
+    build:
+      dockerfile: Dockerfile
+      context: .
