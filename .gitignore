@@ -5,6 +5,9 @@
 *.so
 *.dylib
 
+# VSCode related
+.history
+
 # Test binary, build with `go test -c`
 *.test
 

@@ -14,7 +14,7 @@ run-helloworld-cmd:
 	@go run ./cmd/helloworld/main.go
 
 test:
-	@$(GO_EXECUTABLES)/gotest -v github.com/georgeyord/go-scrumpoker-api/cmd/helloworld
+	@$(GO_EXECUTABLES)/gotest -v ./...
 
 test_deps:
 	@go get -u github.com/rakyll/gotest
