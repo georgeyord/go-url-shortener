@@ -8,11 +8,16 @@ import (
 	"github.com/georgeyord/go-scrumpoker-api/pkg/helloworld"
 )
 
-type Scrumpoker string
-
-func (s Scrumpoker) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func scrumpoker(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Request %v", r)
-	name := "world"
+	var name string
+	nameQuery, ok := r.URL.Query()["name"]
+
+	if !ok || len(nameQuery[0]) < 1 {
+		log.Println("Url Param 'name' is missing")
+	} else {
+		name = string(nameQuery[0])
+	}
 
 	fmt.Fprintf(w, helloworld.GetHelloWorldMessage(name))
 }

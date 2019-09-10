@@ -6,9 +6,10 @@ import (
 )
 
 func main() {
-	const serverAddress = "0.0.0.0:8080"
+	const serverAddress = ":8080"
 	log.Printf("Start serving on %s...", serverAddress)
-	err := http.ListenAndServe(serverAddress, Scrumpoker("World"))
+	http.HandleFunc("/", scrumpoker)
+	err := http.ListenAndServe(serverAddress, nil)
 
 	if err != nil {
 		log.Fatal(err)

@@ -7,8 +7,11 @@ import (
 )
 
 func GetHelloWorldMessage(name string) string {
+	const msgEmptyName = "Name is required"
+
 	if name == "" {
-		log.Fatal("Name is required")
+		log.Print(msgEmptyName)
+		name = "world"
 	}
 
 	return fmt.Sprintf("Hello %s!", strings.Title(name))

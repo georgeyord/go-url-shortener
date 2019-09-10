@@ -7,17 +7,18 @@ import (
 
 func TestGetHelloWorldMessageShouldCapitalizeFirstLetterOfName(t *testing.T) {
 	cases := []struct {
-		in, want string
+		in, expected string
 	}{
 		{"foo", "Hello Foo!"},
 		{"foo bar", "Hello Foo Bar!"},
+		{"", "Hello World!"},
 	}
 
 	for _, c := range cases {
 		got := GetHelloWorldMessage(c.in)
 
-		if got != c.want {
-			t.Error(fmt.Sprintf("Name should be capitalized, expected '%s', got '%s'", c.in, c.want))
+		if got != c.expected {
+			t.Error(fmt.Sprintf("Name should be capitalized, expected '%s', got '%s'", c.in, c.expected))
 		}
 	}
 }
