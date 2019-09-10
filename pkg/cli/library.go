@@ -3,6 +3,7 @@ package cli
 import (
 	"bufio"
 	"fmt"
+	"log"
 	"os"
 	"strings"
 
@@ -16,7 +17,7 @@ func GetInput(label string) (name string) {
 		return strings.TrimSpace(scanner.Text())
 	}
 	if err := scanner.Err(); err != nil {
-		fmt.Fprintln(os.Stderr, "reading standard input:", err)
+		log.Fatal("reading standard input:", err)
 	}
 	return
 }
