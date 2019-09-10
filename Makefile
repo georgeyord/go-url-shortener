@@ -11,12 +11,7 @@ run-cli: deps
 	@go run $(PATH_SRC)/helloworld-cli.go
 
 test: deps
-	@which "$(GO_EXECUTABLES)/gotest" 2>&1 > /dev/null && \
-		"$(GO_EXECUTABLES)/gotest" -v $(PATH_SRC) || \
-		( \
-			echo "'$(GO_EXECUTABLES)/gotest' binary is missing, falling back to 'go test' (install using 'make test_deps')." && \
-			go test -v $(PATH_SRC) \
-		)
+	@$(GO_EXECUTABLES)/gotest -v $(PATH_SRC)
 
 test_deps:
 	@go get -u github.com/rakyll/gotest
