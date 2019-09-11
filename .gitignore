@@ -14,4 +14,9 @@
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
-bin/*
+# Application related
+bin
+log
+
+# Yord defaults
+.TODO

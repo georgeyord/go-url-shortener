@@ -1,17 +1,30 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+
+	"github.com/spf13/viper"
 )
 
 func main() {
-	const serverAddress = ":8080"
+	bootstrap()
+
+	serverAddress := getServerAddress()
+
 	log.Printf("Start serving on %s...", serverAddress)
 	http.HandleFunc("/", scrumpoker)
-	err := http.ListenAndServe(serverAddress, nil)
 
-	if err != nil {
+	if err := http.ListenAndServe(serverAddress, nil); err != nil {
 		log.Fatal(err)
 	}
+}
+
+func getServerAddress() (serverAddress string) {
+	if viper.IsSet("server.address") {
+		serverAddress = viper.GetString("server.address")
+	}
+	serverAddress += fmt.Sprintf(":%s", viper.GetString("server.port"))
+	return
 }

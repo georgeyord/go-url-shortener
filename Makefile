@@ -11,7 +11,7 @@ build-scrumpoker-api:
 	@go build -o ./bin/scrumpoker-api ./api/*
 
 run-scrumpoker-api:
-	@go run ./api/scrumpoker/main.go
+	@go run ./api/*
 
 build-helloworld-cmd:
 	@go build -o ./bin/helloworld ./cmd/helloworld/main.go

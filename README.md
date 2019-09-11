@@ -49,10 +49,11 @@ Here is the long list...
 
 First some technical requirements:
 
-- Add a configuration management system
+- Add a configuration management system - Done - Sep 2019
 - Http Router
 - Http Error handling
 - Use custom logger
+- Use [Corba](https://github.com/spf13/cobra) for cli
 
 And now some business  requirements:
 
