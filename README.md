@@ -54,6 +54,7 @@ First some technical requirements:
 - Http Error handling
 - Use custom logger
 - Use [Corba](https://github.com/spf13/cobra) for cli
+- Use Enum for valid application environments
 
 And now some business  requirements:
 

@@ -29,9 +29,6 @@ func setupEnv() {
 }
 
 func setupConfig() {
-	viper.SetEnvPrefix("SCRUMPOKER_")
-	viper.AutomaticEnv()
-
 	loadConfigFile("config")
 
 	_, isEnvSet := os.LookupEnv("IS_DOCKER")
@@ -41,13 +38,8 @@ func setupConfig() {
 
 	loadConfigFile("config." + viper.GetString("env"))
 
-	// viper.WatchConfig()
-	// viper.OnConfigChange(func(e fsnotify.Event) {
-	// 	fmt.Println("Config file changed:", e.Name)
-	// 	if err := viper.WriteConfigAs("log/config.yaml"); err != nil {
-	// 		log.Printf("Writing config backup failed: %s", err)
-	// 	}
-	// })
+	viper.SetEnvPrefix("SCRUMPOKER")
+	viper.AutomaticEnv()
 
 	if err := viper.WriteConfigAs("log/config.yaml"); err != nil {
 		log.Printf("Writing config backup failed: %s", err)

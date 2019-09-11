@@ -5,11 +5,14 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/common-nighthawk/go-figure"
 	"github.com/spf13/viper"
 )
 
 func main() {
 	bootstrap()
+	appFigure := figure.NewFigure(viper.GetString("application.name"), viper.GetString("application.asciiart.theme"), true)
+	appFigure.Print()
 
 	serverAddress := getServerAddress()
 

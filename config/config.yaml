@@ -1,3 +1,8 @@
 server:
   address: localhost
   port: 8080
+
+application:
+  name: Scrumpoker
+  asciiart:
+    theme: hollywood
