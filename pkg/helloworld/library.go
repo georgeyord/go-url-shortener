@@ -6,6 +6,7 @@ import (
 	"strings"
 )
 
+// Modifies a name string to a 'Hello World!' pattern
 func GetHelloWorldMessage(name string) string {
 	const msgEmptyName = "Name is required"
 

@@ -50,7 +50,8 @@ Here is the long list...
 First some technical requirements:
 
 - Add a configuration management system - Done - Sep 2019
-- Http Router
+- Use [gin](https://github.com/gin-gonic/gin) as a web framework or [chi](https://github.com/go-chi/chi)/[gorilla/mux](https://github.com/gorilla/mux) as router
+- Use Godoc to document usage
 - Http Error handling
 - Use custom logger
 - Use [Corba](https://github.com/spf13/cobra) for cli
