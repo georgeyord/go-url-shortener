@@ -1,33 +1,18 @@
 package main
 
 import (
-	"fmt"
 	"log"
-	"net/http"
 
-	"github.com/common-nighthawk/go-figure"
-	"github.com/spf13/viper"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	bootstrap()
-	appFigure := figure.NewFigure(viper.GetString("application.name"), viper.GetString("application.asciiart.theme"), true)
-	appFigure.Print()
 
-	serverAddress := getServerAddress()
+	router := gin.Default()
+	setupRoutes(router)
 
-	log.Printf("Start serving on %s...", serverAddress)
-	http.HandleFunc("/", scrumpoker)
-
-	if err := http.ListenAndServe(serverAddress, nil); err != nil {
+	if err := router.Run(getServerAddress()); err != nil {
 		log.Fatal(err)
 	}
-}
-
-func getServerAddress() (serverAddress string) {
-	if viper.IsSet("server.address") {
-		serverAddress = viper.GetString("server.address")
-	}
-	serverAddress += fmt.Sprintf(":%s", viper.GetString("server.port"))
-	return
 }

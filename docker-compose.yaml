@@ -6,3 +6,7 @@ services:
     build:
       dockerfile: Dockerfile
       context: .
+    ports:
+      - target: 8080
+        published: 8080
+

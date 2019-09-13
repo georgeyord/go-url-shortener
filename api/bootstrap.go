@@ -4,12 +4,14 @@ import (
 	"log"
 	"os"
 
+	"github.com/common-nighthawk/go-figure"
 	"github.com/spf13/viper"
 )
 
 func bootstrap() {
 	setupEnv()
 	setupConfig()
+	printIntro()
 }
 
 func setupEnv() {
@@ -44,6 +46,11 @@ func setupConfig() {
 	if err := viper.WriteConfigAs("log/config.yaml"); err != nil {
 		log.Printf("Writing config backup failed: %s", err)
 	}
+}
+
+func printIntro() {
+	appFigure := figure.NewFigure(viper.GetString("application.name"), viper.GetString("application.asciiart.theme"), true)
+	appFigure.Print()
 }
 
 var loadConfigFileInitialed = false

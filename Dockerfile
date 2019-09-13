@@ -20,8 +20,10 @@ COPY . .
 RUN make test
 RUN make build-helloworld-cmd
 RUN make build-scrumpoker-api
+RUN stat -c "%n %s" ./bin/*
 
 FROM debian:${OS_VERSION}
+ENV IS_DOCKER=1
 
 WORKDIR /app/bin
 COPY --from=builder /app/bin/* ./
