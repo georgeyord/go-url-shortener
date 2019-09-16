@@ -1,13 +1,11 @@
 package main
 
 import (
-	"github.com/georgeyord/go-scrumpoker-api/pkg/cli"
-	"github.com/georgeyord/go-scrumpoker-api/pkg/helloworld"
-	"github.com/logrusorgru/aurora"
+	"github.com/georgeyord/go-scrumpoker-api/pkg/cmd"
+	"github.com/georgeyord/go-scrumpoker-api/pkg/config"
 )
 
 func main() {
-	name := cli.GetInput("name")
-	message := helloworld.GetHelloWorldMessage(name)
-	cli.PrintMessage(message, aurora.Magenta)
+	config.Init()
+	cmd.Execute()
 }

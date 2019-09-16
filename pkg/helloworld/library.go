@@ -4,15 +4,20 @@ import (
 	"fmt"
 	"log"
 	"strings"
+
+	"github.com/spf13/viper"
 )
 
-// Modifies a name string to a 'Hello World!' pattern
+// Modifies input string 'name' to a 'Hello World!' pattern
 func GetHelloWorldMessage(name string) string {
-	const msgEmptyName = "Name is required"
-
 	if name == "" {
-		log.Print(msgEmptyName)
-		name = "world"
+		if viper.IsSet("cmd.name.default") {
+			log.Print("Falling back to default 'name' from configuration")
+			name = viper.GetString("cmd.name.default")
+		} else {
+			log.Print("Name is required")
+			name = "world"
+		}
 	}
 
 	return fmt.Sprintf("Hello %s!", strings.Title(name))

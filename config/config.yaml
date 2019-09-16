@@ -6,3 +6,8 @@ application:
   name: Scrumpoker
   asciiart:
     theme: hollywood
+
+cmd:
+  name:
+    # Comment out to print default name
+    default: cosmos
