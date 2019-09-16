@@ -8,7 +8,7 @@ deps:
 	@go mod download
 
 build-scrumpoker-api:
-	go build -o ./bin/scrumpoker-api ./api/*
+	go build -o ./bin/scrumpoker-api ./api
 
 run-scrumpoker-api:
 	go run ./api

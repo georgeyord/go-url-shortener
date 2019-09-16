@@ -1,13 +1,9 @@
-package main
+package actions
 
 import (
 	"github.com/georgeyord/go-scrumpoker-api/pkg/helloworld"
 	"github.com/gin-gonic/gin"
 )
-
-func setupRoutes(router *gin.Engine) {
-	router.GET("/", GetHelloWorld())
-}
 
 func GetHelloWorld() gin.HandlerFunc {
 	return func(c *gin.Context) {
