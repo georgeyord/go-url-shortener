@@ -8,12 +8,17 @@ import (
 )
 
 func serve() {
-	var router = gin.Default()
-	mapRoutes(router)
+	router := getRouter()
 
 	if err := router.Run(getServerAddress()); err != nil {
 		log.Fatal(err)
 	}
+}
+
+func getRouter() *gin.Engine {
+	var router = gin.Default()
+	mapRoutes(router)
+	return router
 }
 
 func mapRoutes(router *gin.Engine) {
