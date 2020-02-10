@@ -1,7 +1,7 @@
 package actions
 
 import (
-	"github.com/georgeyord/go-scrumpoker-api/pkg/helloworld"
+	"github.com/georgeyord/go-url-shortener/pkg/helloworld"
 	"github.com/gin-gonic/gin"
 )
 

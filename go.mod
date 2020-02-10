@@ -1,4 +1,4 @@
-module github.com/georgeyord/go-scrumpoker-api
+module github.com/georgeyord/go-url-shortener
 
 go 1.13
 

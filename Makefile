@@ -2,27 +2,33 @@ GO_EXECUTABLES=$(shell go env GOPATH)/bin
 PATH_SRC=./src
 
 clean:
-	@rm -r ./bin
+	@rm -rf ./bin
 
 deps:
 	@go mod download
 
-build-scrumpoker-api:
-	go build -o ./bin/scrumpoker-api ./api
+build-url-shortener-web:
+	go build -o ./bin/url-shortener-web ./api
 
-run-scrumpoker-api:
+docker-build-url-shortener-web:
+	docker-compose build url-shortener-web
+
+run-url-shortener-web:
 	go run ./api
 
-build-helloworld-cmd:
-	go build -o ./bin/helloworld ./cmd/helloworld/main.go
+build-url-shortener-cli:
+	go build -o ./bin/url-shortener-cli ./cmd/url-shortener/main.go
 
-run-helloworld-cmd:
-	go run ./cmd/helloworld/main.go
+run-url-shortener-cli:
+	go run ./cmd/url-shortener/main.go
+
+docker-build-url-shortener-cli:
+	docker-compose build url-shortener-cli
 
 test:
-	@$(GO_EXECUTABLES)/gotest -v ./...
+	$(GO_EXECUTABLES)/gotest -v ./...
 
 test_deps:
 	@go get -u github.com/rakyll/gotest
 
-.PHONY: clean deps build-scrumpoker-api run-scrumpoker-api build-helloworld-cmd run-helloworld-cmd test test_deps
+.PHONY: clean deps build-url-shortener-web docker-build-url-shortener-web run-url-shortener-web build-url-shortener-cli docker-build-url-shortener-cli run-url-shortener-cli test test_deps

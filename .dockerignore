@@ -1,9 +1,9 @@
-# Binaries for programs and plugins
-*.exe
-*.exe~
-*.dll
-*.so
-*.dylib
+# Docker related
+docker-compose.yaml
+Dockerfile
+
+# Git related
+.gitignore
 
 # VSCode related
 .history
@@ -18,6 +18,5 @@
 # Application related
 bin
 log
-
-# Yord defaults
-.TODO
+LICENSE
+README.md

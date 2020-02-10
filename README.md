@@ -1,8 +1,16 @@
-# go-scrumpoker-api
+# go-url-shortener
 
-A scrumpoker api implementation in Go lang #agile #scrum #poker #api #golang
+A url shortener includes 3 components:
 
-## Run locally
+- a redirection module that takes a short url as input, retrieves long url and redirects to that
+- an API to manage pairs of short/long urls
+- a cli to use the API from the command line
+
+> The redirection module and the API co-exist under one single web server
+
+# Development
+
+## Prepare local running
 
 First download dependencies:
 ```
@@ -15,35 +23,94 @@ Verify test are running successfully:
 make test
 ```
 
-Run `helloworld` command:
+## Run the web server locally
+
+
+Run `url-shortener-web` command:
 ```
-make run-helloworld-cmd
+make run-url-shortener-web
 ```
 
 
-Build `helloworld` binary:
+Build `url-shortener-web` binary:
 ```
-make build-helloworld-cmd
+make build-url-shortener-web
 ```
 
 Then, you can run the binary:
 ```
-./bin/helloworld
+./bin/url-shortener-web
 ```
 
-## Run with docker
+
+## Run the cli locally
+
+Run `url-shortener` command:
+```
+make run-url-shortener-cli
+```
+
+
+Build `url-shortener` binary:
+```
+make build-url-shortener-cli
+```
+
+Then, you can run the binary:
+```
+./bin/url-shortener-cli
+```
+
+## Run the web server with docker
 
 First build:
 ```
-docker-compose build helloworld
+docker-compose build url-shortener-web
 ```
 
 then, run:
 ```
-docker-compose run helloworld
+docker-compose run url-shortener-web
 ```
 
-# Next steps
+# Business requirements
+
+## Redirection module
+
+- Can read the short url
+- Can check if the short url exists
+- Can return a 404 (Not Found) HTTP code if short url does not exist
+- Can retrieve the long url from the short one
+- Can redirect to long url using a 301 (Moved Permanently) HTTP code
+- Can redirect to long url using a custom HTTP code
+- Can redirect to long url honoring the incoming query params
+- Can keep stats of the short url usage
+
+## API for admininstartion
+
+- Can create a pair of short/long urls
+- Can check if a short url exists
+- Can modify a pair of short/long urls
+- Can delete a pair of short/long urls
+- Can generate a random short url (generation process should be abstracted)
+- Can have multiple generation options and params (valid characters, length)
+- Can store a pair of short/long urls (storage process should be abstracted)
+- Can have multiple storage options (file, key-value db, traditional db etc.)
+- Can run behind an authentication wall
+
+## CLI for admininstartion
+
+- Can create a pair of short/long urls
+- Can check if a short url exists
+- Can modify a pair of short/long urls
+- Can delete a pair of short/long urls
+- Can use authentication to access the API
+
+# Technical requirements
+
+- Can use web and cli as separate docker images
+
+# Implementation tracking
 
 Here is the long list...
 
@@ -59,16 +126,7 @@ First some technical requirements:
 - Use [Corba](https://github.com/spf13/cobra) for cli
 - Use Enum for valid application environments
 
-And now some business  requirements:
+# Thank you...
 
-- Define the scrumpoker entities
-- Create a Room as Administrator with a specific (optional) name
-- Room should create a custom identifier, Room Id
-- Join a Room as someone
-- Set a Story for evaluation
-- Start voting
-- Do NOT show results until everybody votes
-- Show how many Votersremian to vote
-- Find the min/max voters and let them fight
-- Re-run a voting
-- Have a customizable Voting system (Fibinacci, custom...)
+> API is heavily influenced by [informatics-lab/url-shortener](https://github.com/informatics-lab/url-shortener)
+

@@ -3,7 +3,7 @@ server:
   port: 8080
 
 application:
-  name: Scrumpoker
+  name: Url shortener
   asciiart:
     theme: hollywood
 

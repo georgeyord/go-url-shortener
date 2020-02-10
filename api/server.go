@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/georgeyord/go-scrumpoker-api/api/actions"
+	"github.com/georgeyord/go-url-shortener/api/actions"
 	"github.com/gin-gonic/gin"
 )
 

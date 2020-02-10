@@ -8,7 +8,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	library "github.com/georgeyord/go-scrumpoker-api/pkg/helloworld"
+	library "github.com/georgeyord/go-url-shortener/pkg/helloworld"
 	"github.com/logrusorgru/aurora"
 )
 
