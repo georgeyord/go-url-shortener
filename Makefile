@@ -30,5 +30,6 @@ test:
 
 test_deps:
 	@go get -u github.com/rakyll/gotest
+	@go get -u github.com/stretchr/testify
 
 .PHONY: clean deps build-url-shortener-web docker-build-url-shortener-web run-url-shortener-web build-url-shortener-cli docker-build-url-shortener-cli run-url-shortener-cli test test_deps

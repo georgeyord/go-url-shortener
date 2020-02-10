@@ -3,6 +3,8 @@ package helloworld
 import (
 	"fmt"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestGetHelloWorldMessageShouldCapitalizeFirstLetterOfName(t *testing.T) {
@@ -17,8 +19,6 @@ func TestGetHelloWorldMessageShouldCapitalizeFirstLetterOfName(t *testing.T) {
 	for _, c := range cases {
 		got := GetHelloWorldMessage(c.in)
 
-		if got != c.expected {
-			t.Error(fmt.Sprintf("Name should be capitalized, expected '%s', got '%s'", c.in, c.expected))
-		}
+		assert.Equal(t, got, c.expected, fmt.Sprintf("Name should be capitalized, expected '%s', got '%s'", c.in, c.expected))
 	}
 }
