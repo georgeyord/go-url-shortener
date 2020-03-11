@@ -10,13 +10,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// Grab the Gin router with registered routes
-func getRouter() *gin.Engine {
-	router := gin.Default()
-	router.POST("/api/create", CreateUrlPair)
-	return router
-}
-
 func TestCreateShouldRespondWithTheSameShortLongUrlsInJsonFormat(t *testing.T) {
 	const short = "a7sy9d8"
 	const long = "https://www.google.com"

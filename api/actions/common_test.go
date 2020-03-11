@@ -7,17 +7,29 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
+
+func getRouter() *gin.Engine {
+	router := gin.Default()
+	db, _ := gorm.Open("sqlite", "/tmp/sqlite.db")
+	router.Use(func(c *gin.Context) {
+		c.Set("db", db)
+		c.Next()
+	})
+	return router
+}
 
 // Grab the Gin router with registered routes
 func routerWithGetRoute(path string, route gin.HandlerFunc) *gin.Engine {
-	router := gin.Default()
+	router := getRouter()
 	router.GET(path, route)
 	return router
 }
 
 func routerWithPostRoute(path string, route gin.HandlerFunc) *gin.Engine {
-	router := gin.Default()
+	router := getRouter()
 	router.POST(path, route)
 	return router
 }
