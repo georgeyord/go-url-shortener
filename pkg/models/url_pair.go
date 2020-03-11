@@ -1,6 +1,9 @@
 package models
 
+import "github.com/jinzhu/gorm"
+
 type UrlPair struct {
+	gorm.Model
 	Short string
 	Long  string
 }
