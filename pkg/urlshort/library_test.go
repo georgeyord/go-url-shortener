@@ -6,36 +6,36 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGenerateRadmonShortUrlShouldReturnAString(t *testing.T) {
+func TestGenerateRandomShortUrlShouldReturnAString(t *testing.T) {
 	var expected string
 
-	got := GenerateRadmonShortUrl()
+	got := GenerateRandomShortUrl()
 
 	assert.IsType(t, got, expected)
 }
 
-func TestGenerateRadmonShortUrlShouldReturnANotEmptyString(t *testing.T) {
-	got := GenerateRadmonShortUrl()
+func TestGenerateRandomShortUrlShouldReturnANotEmptyString(t *testing.T) {
+	got := GenerateRandomShortUrl()
 
 	assert.Greater(t, len(got), 0)
 }
 
-func TestThatConsequentCallsOfGenerateRadmonShortUrlShouldNotReturnTheSameResult(t *testing.T) {
-	firstRun := GenerateRadmonShortUrl()
-	secondRun := GenerateRadmonShortUrl()
+func TestThatConsequentCallsOfGenerateRandomShortUrlShouldNotReturnTheSameResult(t *testing.T) {
+	firstRun := GenerateRandomShortUrl()
+	secondRun := GenerateRandomShortUrl()
 
 	assert.NotEqual(t, firstRun, secondRun)
 }
 
-func TestGenerateRadmonShortUrlShouldReturnStringOfTheDefaultLength(t *testing.T) {
-	got := GenerateRadmonShortUrl()
+func TestGenerateRandomShortUrlShouldReturnStringOfTheDefaultLength(t *testing.T) {
+	got := GenerateRandomShortUrl()
 
 	assert.Equal(t, len(got), DEFAULT_LENGTH)
 }
 
-func TestGenerateRadmonShortUrlShouldReturnStringOfSpecificLength(t *testing.T) {
+func TestGenerateRandomShortUrlShouldReturnStringOfSpecificLength(t *testing.T) {
 	var length int = 6
-	got := GenerateRadmonShortUrlOfLength(length)
+	got := GenerateRandomShortUrlOfLength(length)
 
 	assert.Equal(t, len(got), length)
 }

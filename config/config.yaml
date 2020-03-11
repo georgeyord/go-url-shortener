@@ -7,6 +7,10 @@ application:
   asciiart:
     theme: hollywood
 
+db:
+  type: sqlite3
+  path: ../data/shortener.db
+
 cmd:
   name:
     # Comment out to print default name

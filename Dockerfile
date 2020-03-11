@@ -22,6 +22,7 @@ RUN make deps
 COPY . .
 
 # Build the Go app
+RUN make prepare_paths
 RUN make clean
 RUN make test
 RUN make "build-url-shortener-${TARGET_APP}"
@@ -37,10 +38,12 @@ ENV IS_DOCKER=1
 
 WORKDIR /app/bin
 COPY --from=builder /app/bin/url-shortener ./url-shortener
-COPY --from=builder /app/config ./config
+COPY --from=builder /app/config ../config
 
-RUN mkdir -p ./log && \
-    chown www-data:www-data ./log
+RUN mkdir -p ../data && \
+    chown www-data:www-data ../data && \
+    mkdir -p ../log && \
+    chown www-data:www-data ../log
 
 EXPOSE 8080
 

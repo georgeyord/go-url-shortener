@@ -5,7 +5,7 @@ import (
 )
 
 func main() {
-	config.Init()
+	db := config.Init()
 	printIntro()
-	serve()
+	serve(db)
 }

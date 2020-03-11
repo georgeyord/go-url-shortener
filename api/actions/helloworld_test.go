@@ -12,7 +12,7 @@ func TestHelloWorldCallWithNameShouldRespondWithTheNameTransformed(t *testing.T)
 	// Expected body
 	const expected = "Hello Foo!"
 
-	router := routerWithGetRoute("/", GetHelloWorld())
+	router := routerWithGetRoute("/", GetHelloWorld)
 
 	// Perform a GET request with that handler.
 	w := performGET(router, "/?name=foo")

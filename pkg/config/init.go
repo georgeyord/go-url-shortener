@@ -1,15 +1,28 @@
 package config
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"time"
 
+	"github.com/georgeyord/go-url-shortener/pkg/models"
+
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"github.com/spf13/viper"
 )
 
-func Init() {
+func Init() *gorm.DB {
 	initApplicationEnv()
+	InitConfig()
+	db := InitDb()
+	models.SetupModels(db)
+
+	return db
+}
+
+func InitConfig() {
 	loadConfigFile("config")
 
 	_, isEnvSet := os.LookupEnv("IS_DOCKER")
@@ -22,14 +35,27 @@ func Init() {
 	viper.SetEnvPrefix("SCRUMPOKER")
 	viper.AutomaticEnv()
 
-	if err := viper.WriteConfigAs("log/config.yaml"); err != nil {
+	if err := viper.WriteConfigAs("../log/config.yaml"); err != nil {
 		log.Printf("Writing config backup failed: %s", err)
 	}
 }
 
+func InitDb() *gorm.DB {
+	dbType := viper.GetString("db.type")
+	dbPath := viper.GetString("db.path")
+
+	db, err := gorm.Open(dbType, dbPath)
+
+	if err != nil {
+		panic(fmt.Sprintf("Failed to connect to '%s' database '%s'!", dbType, dbPath))
+	}
+
+	return db
+}
+
 func initApplicationEnv() {
-	viper.SetDefault("env", "staging")
 	now := time.Now()
+	viper.SetDefault("env", "staging")
 	viper.SetDefault("boot.timestamp", now.Unix())
 	log.Printf("Boot timestamp: %s", viper.GetString("boot.timestamp"))
 
@@ -49,7 +75,7 @@ func initApplicationEnv() {
 var loadConfigFileInitialed = false
 
 func loadConfigFile(configName string) {
-	const configPath = "./config"
+	const configPath = "../config"
 	const configType = "yaml"
 	viper.AddConfigPath(configPath)
 	viper.SetConfigName(configName)

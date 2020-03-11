@@ -6,11 +6,11 @@ import (
 
 const DEFAULT_LENGTH int = 5
 
-func GenerateRadmonShortUrl() string {
-	return GenerateRadmonShortUrlOfLength(DEFAULT_LENGTH)
+func GenerateRandomShortUrl() string {
+	return GenerateRandomShortUrlOfLength(DEFAULT_LENGTH)
 }
 
-func GenerateRadmonShortUrlOfLength(length int) string {
+func GenerateRandomShortUrlOfLength(length int) string {
 	if length == 0 {
 		length = DEFAULT_LENGTH
 	}
