@@ -4,9 +4,9 @@ PATH_SRC=./src
 clean:
 	@rm -rf ./bin
 
-prepare: prepare_paths deps test_deps
+prepare: prepare_paths deps test-deps
 
-prepare_paths: deps test_deps
+prepare-paths: deps test-deps
 	mkdir -p ./data
 	mkdir -p ./log
 
@@ -35,11 +35,24 @@ run-url-shortener-cli:
 docker-build-url-shortener-cli:
 	docker-compose build url-shortener-cli
 
-test:
+test: test-api test-cli
+	@cd ./pkg
 	$(GO_EXECUTABLES)/gotest -v ./...
 
-test_deps:
+test-pkg:
+	@cd ./pkg
+	$(GO_EXECUTABLES)/gotest -v ./...
+
+test-api: test-pkg
+	@cd ./api
+	$(GO_EXECUTABLES)/gotest -v ./...
+
+test-cli: test-pkg
+	@cd ./cmd
+	$(GO_EXECUTABLES)/gotest -v ./...
+
+test-deps:
 	@go get -u github.com/rakyll/gotest
 	@go get -u github.com/stretchr/testify
 
-.PHONY: clean deps build-url-shortener-web docker-build-url-shortener-web run-url-shortener-web build-url-shortener-cli docker-build-url-shortener-cli run-url-shortener-cli test test_deps prepare prepare_paths
+.PHONY: clean deps build-url-shortener-web docker-build-url-shortener-web run-url-shortener-web build-url-shortener-cli docker-build-url-shortener-cli run-url-shortener-cli test test-pkg test-api test-cli test-deps prepare prepare-paths

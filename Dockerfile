@@ -24,7 +24,7 @@ COPY . .
 # Build the Go app
 RUN make prepare_paths
 RUN make clean
-RUN make test
+RUN make "test-${TARGET_APP}"
 RUN make "build-url-shortener-${TARGET_APP}"
 
 WORKDIR /app/bin
