@@ -17,6 +17,7 @@
 
 # Application related
 bin
+data
 log
 
 # Yord defaults
