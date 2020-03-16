@@ -50,6 +50,8 @@ func initDb() *gorm.DB {
 		panic(fmt.Sprintf("Failed to connect to '%s' database '%s'\nError: %s", dbType, dbPath, err.Error()))
 	}
 
+	log.Printf("DB of type %s loaded from: %s", dbType, dbPath)
+
 	viper.Set("db", db)
 	return db
 }

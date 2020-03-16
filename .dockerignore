@@ -17,6 +17,6 @@ Dockerfile
 
 # Application related
 bin
+data
 log
-LICENSE
 README.md

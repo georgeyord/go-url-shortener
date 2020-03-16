@@ -4,7 +4,7 @@ TEST_ARGS ?= -v
 clean:
 	@rm -rf ./bin
 
-prepare: prepare_paths deps test-deps
+prepare: prepare-paths deps test-deps
 
 prepare-paths: deps test-deps
 	mkdir -p ./data
@@ -13,13 +13,13 @@ prepare-paths: deps test-deps
 deps:
 	@go mod download
 
-build-url-shortener-web:
-	@cd ./api && go build -o ../bin/url-shortener-web .
+build-url-shortener-api:
+	@cd ./api && go build -o ../bin/url-shortener-api .
 
-docker-build-url-shortener-web:
-	docker-compose build url-shortener-web
+docker-build-url-shortener-api:
+	docker-compose build url-shortener-api
 
-run-url-shortener-web:
+run-url-shortener-api:
 	@cd ./api && go run .
 
 build-url-shortener-cli:
@@ -48,4 +48,4 @@ test-deps:
 	@go get -u github.com/rakyll/gotest
 	@go get -u github.com/stretchr/testify
 
-.PHONY: clean deps build-url-shortener-web docker-build-url-shortener-web run-url-shortener-web build-url-shortener-cli docker-build-url-shortener-cli run-url-shortener-cli test test-pkg test-api test-cli test-deps prepare prepare-paths
+.PHONY: clean deps build-url-shortener-api docker-build-url-shortener-api run-url-shortener-api build-url-shortener-cli docker-build-url-shortener-cli run-url-shortener-cli test test-pkg test-api test-cli test-deps prepare prepare-paths

@@ -1,14 +1,18 @@
 version: '3.4'
 
 services:
-  # Usage: docker-compose up url-shortener-web
-  url-shortener-web:
-    image: github.com/georgeyord/url-shortener-web:latest
+  # Usage: docker-compose up url-shortener-api
+  url-shortener-api:
+    image: github.com/georgeyord/url-shortener-api:latest
     build:
       dockerfile: Dockerfile
       context: .
       args:
-        TARGET_APP:  web
+        TARGET_APP:  api
+    environment:
+      ENV: production
+    volumes:
+      - ./data/volume-data:/app/data
     ports:
       - target: 8080
         published: 8080
@@ -20,4 +24,8 @@ services:
       context: .
       args:
         TARGET_APP:  cli
+    environment:
+      ENV: production
+    volumes:
+      - ./data/volume-data:/app/data
 

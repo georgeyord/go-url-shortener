@@ -58,11 +58,17 @@ func TestGetInputWithValidInput(t *testing.T) {
 func TestGetInputWithEmptyInput(t *testing.T) {
 	var actual string
 	const input = ""
-	fillStdin(
-		func() {
-			actual = GetInput("foo")
-		}, input)
+	captured := captureOutput(func() {
+		fillStdin(
+			func() {
+				actual = GetInput("foo")
+			}, input)
+	})
 
 	// Check message exists
 	assert.Contains(t, actual, input)
+	// Check message exists
+	assert.Contains(t, captured, "Please enter your")
+	// Check label exists
+	assert.Contains(t, captured, "foo")
 }
