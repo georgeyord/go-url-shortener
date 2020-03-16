@@ -1,4 +1,4 @@
-package cmd
+package cli
 
 import (
 	"bufio"
@@ -23,5 +23,5 @@ func GetInput(label string) (name string) {
 }
 
 func PrintMessage(message string, auroraFn func(arg interface{}) aurora.Value) {
-	fmt.Print(auroraFn(message))
+	fmt.Println(auroraFn(message))
 }

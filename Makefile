@@ -1,5 +1,5 @@
 GO_EXECUTABLES=$(shell go env GOPATH)/bin
-PATH_SRC=./src
+TEST_ARGS ?= -v
 
 clean:
 	@rm -rf ./bin
@@ -14,42 +14,35 @@ deps:
 	@go mod download
 
 build-url-shortener-web:
-	@cd ./api
-	go build -o ../bin/url-shortener-web .
+	@cd ./api && go build -o ../bin/url-shortener-web .
 
 docker-build-url-shortener-web:
 	docker-compose build url-shortener-web
 
 run-url-shortener-web:
-	@cd ./api
-	go run .
+	@cd ./api && go run .
 
 build-url-shortener-cli:
-	@cd ./cmd
-	go build -o ./bin/url-shortener-cli .
+	@cd ./cli && go build -o ../bin/url-shortener-cli .
 
 run-url-shortener-cli:
-	@cd ./cmd
-	go run .
+	@cd ./cli && go run .
 
 docker-build-url-shortener-cli:
 	docker-compose build url-shortener-cli
 
-test: test-api test-cli
-	@cd ./pkg
-	$(GO_EXECUTABLES)/gotest -v ./...
+# To get the test coverage run: make test TEST_ARGS="-cover"
+test:
+	@$(GO_EXECUTABLES)/gotest $(TEST_ARGS) ./...
 
 test-pkg:
-	@cd ./pkg
-	$(GO_EXECUTABLES)/gotest -v ./...
+	@cd ./pkg && $(GO_EXECUTABLES)/gotest $(TEST_ARGS) ./...
 
 test-api: test-pkg
-	@cd ./api
-	$(GO_EXECUTABLES)/gotest -v ./...
+	@cd ./api && $(GO_EXECUTABLES)/gotest $(TEST_ARGS) ./...
 
 test-cli: test-pkg
-	@cd ./cmd
-	$(GO_EXECUTABLES)/gotest -v ./...
+	@cd ./cli && $(GO_EXECUTABLES)/gotest $(TEST_ARGS) ./...
 
 test-deps:
 	@go get -u github.com/rakyll/gotest

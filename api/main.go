@@ -7,5 +7,5 @@ import (
 func main() {
 	db := config.Init()
 	printIntro()
-	serve(db)
+	runRouter(db)
 }

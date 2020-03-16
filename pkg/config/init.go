@@ -15,14 +15,14 @@ import (
 
 func Init() *gorm.DB {
 	initApplicationEnv()
-	InitConfig()
-	db := InitDb()
+	initConfig()
+	db := initDb()
 	models.SetupModels(db)
 
 	return db
 }
 
-func InitConfig() {
+func initConfig() {
 	loadConfigFile("config")
 
 	_, isEnvSet := os.LookupEnv("IS_DOCKER")
@@ -40,16 +40,17 @@ func InitConfig() {
 	}
 }
 
-func InitDb() *gorm.DB {
+func initDb() *gorm.DB {
 	dbType := viper.GetString("db.type")
 	dbPath := viper.GetString("db.path")
 
 	db, err := gorm.Open(dbType, dbPath)
 
 	if err != nil {
-		panic(fmt.Sprintf("Failed to connect to '%s' database '%s'!", dbType, dbPath))
+		panic(fmt.Sprintf("Failed to connect to '%s' database '%s'\nError: %s", dbType, dbPath, err.Error()))
 	}
 
+	viper.Set("db", db)
 	return db
 }
 

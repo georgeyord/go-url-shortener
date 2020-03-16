@@ -39,3 +39,9 @@ func TestGenerateRandomShortUrlShouldReturnStringOfSpecificLength(t *testing.T) 
 
 	assert.Equal(t, len(got), length)
 }
+
+func TestGenerateRandomShortUrlWithZeroLengthShouldReturnStringOfTheDefaultLength(t *testing.T) {
+	got := GenerateRandomShortUrlOfLength(0)
+
+	assert.Equal(t, len(got), DEFAULT_LENGTH)
+}
