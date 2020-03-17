@@ -105,6 +105,7 @@ docker-compose run url-shortener-api
 - Can modify a pair of short/long urls - Done
 - Can delete a pair of short/long urls
 - Can use authentication to access the API
+- Add [shell completion](https://github.com/helm/helm/blob/26830942d275b3a70edfdc32474230f3499a18e4/cmd/helm/root.go#L85)
 
 # Technical requirements
 

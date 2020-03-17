@@ -25,7 +25,7 @@ func runTestRouter() (*gin.Engine, *gorm.DB) {
 func initTestDb() *gorm.DB {
 	db, err := gorm.Open("sqlite3", ":memory:")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err.Error())
 	}
 	models.SetupModels(db)
 	return db
@@ -42,7 +42,7 @@ func performMockedPost(router http.Handler, path string, payload string) *httpte
 	req, err := http.NewRequest(http.MethodPost, path, strings.NewReader(payload))
 
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err.Error())
 	}
 
 	w := httptest.NewRecorder()

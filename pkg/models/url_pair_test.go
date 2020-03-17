@@ -22,7 +22,7 @@ func TestBeforeSaveWhileCreatingNewModelShouldReturnNoErrorsOnValidModel(t *test
 	db := initTestDb()
 	urlPair := NewUrlPair(long, short)
 	if err := db.Create(&urlPair).Error; err != nil {
-		panic(err.Error())
+		log.Fatal(err.Error())
 	}
 
 	assert.Equal(t, long, urlPair.Long)
@@ -39,7 +39,7 @@ func TestBeforeSaveWhileCreatingNewModelShouldCreateRandomShortUrlWhenShortUrlIs
 	db := initTestDb()
 	urlPair := NewUrlPair(long, short)
 	if err := db.Create(&urlPair).Error; err != nil {
-		panic(err.Error())
+		log.Fatal(err.Error())
 	}
 
 	assert.Equal(t, long, urlPair.Long)
@@ -68,7 +68,7 @@ func TestBeforeSaveWhileCreatingNewModelShouldReturnErrorWhenShortUrlAlreadyExis
 	db := initTestDb()
 	urlPair1 := NewUrlPair(long, short)
 	if err := db.Create(&urlPair1).Error; err != nil {
-		panic(err.Error())
+		log.Fatal(err.Error())
 	}
 
 	urlPair2 := NewUrlPair(long, short)
@@ -85,7 +85,7 @@ func TestBeforeSaveWhileCreatingNewModelShouldReturnSuccessfullyWhenShortUrlAlre
 	db := initTestDb()
 	urlPair := NewUrlPair(long, short)
 	if err := db.Create(&urlPair).Error; err != nil {
-		panic(err.Error())
+		log.Fatal(err.Error())
 	}
 
 	assert.Equal(t, long, urlPair.Long)
@@ -101,7 +101,7 @@ func TestBeforeSaveWhileCreatingNewModelShouldReturnSuccessfullyWhenShortUrlAlre
 
 	urlPair.Long = "https://www.google.de"
 	if err := db.Save(&urlPair).Error; err != nil {
-		panic(err.Error())
+		log.Fatal(err.Error())
 	}
 
 	assert.Equal(t, oldShort, urlPair.Short)
@@ -114,7 +114,7 @@ func TestShortExistsWithExistingShortUrlShouldReturnTrue(t *testing.T) {
 	db := initTestDb()
 	urlPair := NewUrlPair("http://www.google.com", "123")
 	if err := db.Create(&urlPair).Error; err != nil {
-		panic(err.Error())
+		log.Fatal(err.Error())
 	}
 
 	got, err := ShortExists("123", db)

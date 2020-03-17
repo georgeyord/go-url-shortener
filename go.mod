@@ -9,6 +9,7 @@ require (
 	github.com/jinzhu/gorm v1.9.12
 	github.com/logrusorgru/aurora v0.0.0-20190803045625-94edacc10f9b
 	github.com/mattn/go-colorable v0.1.6 // indirect
+	github.com/mattn/go-shellwords v1.0.10
 	github.com/rakyll/gotest v0.0.0-20200206190159-3023d5d6366c // indirect
 	github.com/spf13/cobra v0.0.5
 	github.com/spf13/viper v1.3.2

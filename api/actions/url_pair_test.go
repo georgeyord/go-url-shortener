@@ -129,13 +129,13 @@ func TestListUrlPairsShouldRespondWithAListOfPairsInJsonFormat(t *testing.T) {
 	const short1 = "9d8a7sy"
 	urlPair1 := models.NewUrlPair(long1, short1)
 	if err := db.Create(&urlPair1).Error; err != nil {
-		panic(err.Error())
+		log.Fatal(err.Error())
 	}
 	const long2 = "https://www.google.de"
 	const short2 = "97syd8a"
 	urlPair2 := models.NewUrlPair(long2, short2)
 	if err := db.Create(&urlPair2).Error; err != nil {
-		panic(err.Error())
+		log.Fatal(err.Error())
 	}
 
 	// Act
@@ -163,7 +163,7 @@ func TestRedirectWithInvalidShortUrlShouldRespondWithRedirectHttpCode(t *testing
 
 	urlPair := models.NewUrlPair(long, short)
 	if err := db.Create(&urlPair).Error; err != nil {
-		panic(err.Error())
+		log.Fatal(err.Error())
 	}
 
 	// Act

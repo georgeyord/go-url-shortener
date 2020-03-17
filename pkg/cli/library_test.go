@@ -3,12 +3,13 @@ package cli
 import (
 	"testing"
 
+	"github.com/georgeyord/go-url-shortener/pkg/test/cli"
 	"github.com/logrusorgru/aurora"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestPrintMessageInBlue(t *testing.T) {
-	captured := captureOutput(func() {
+	captured := cli.CaptureOutput(func() {
 		PrintMessage("foo", aurora.Blue)
 	})
 
@@ -21,7 +22,7 @@ func TestPrintMessageInBlue(t *testing.T) {
 }
 
 func TestPrintMessageInMagenta(t *testing.T) {
-	captured := captureOutput(func() {
+	captured := cli.CaptureOutput(func() {
 		PrintMessage("foo", aurora.Magenta)
 	})
 
@@ -36,8 +37,8 @@ func TestPrintMessageInMagenta(t *testing.T) {
 func TestGetInputWithValidInput(t *testing.T) {
 	var actual string
 	const input = "bar"
-	captured := captureOutput(func() {
-		fillStdin(
+	captured := cli.CaptureOutput(func() {
+		cli.ProvideStdin(
 			func() {
 				actual = GetInput("foo")
 			}, input)
@@ -58,8 +59,8 @@ func TestGetInputWithValidInput(t *testing.T) {
 func TestGetInputWithEmptyInput(t *testing.T) {
 	var actual string
 	const input = ""
-	captured := captureOutput(func() {
-		fillStdin(
+	captured := cli.CaptureOutput(func() {
+		cli.ProvideStdin(
 			func() {
 				actual = GetInput("foo")
 			}, input)

@@ -47,7 +47,7 @@ func initDb() *gorm.DB {
 	db, err := gorm.Open(dbType, dbPath)
 
 	if err != nil {
-		panic(fmt.Sprintf("Failed to connect to '%s' database '%s'\nError: %s", dbType, dbPath, err.Error()))
+		log.Fatal(fmt.Sprintf("Failed to connect to '%s' database '%s'\nError: %s", dbType, dbPath, err.Error()))
 	}
 
 	log.Printf("DB of type %s loaded from: %s", dbType, dbPath)

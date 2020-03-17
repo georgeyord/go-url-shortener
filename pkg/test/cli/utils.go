@@ -7,13 +7,15 @@ import (
 	"log"
 	"os"
 	"sync"
+
+	shellwords "github.com/mattn/go-shellwords"
 )
 
-func captureOutput(f func()) string {
+func CaptureOutput(f func()) string {
 	// Setup custom writer to use as Stdout/Stderr
 	reader, writer, err := os.Pipe()
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	// Revert and cleanup
@@ -35,7 +37,10 @@ func captureOutput(f func()) string {
 	go func() {
 		var buf bytes.Buffer
 		wg.Done()
-		io.Copy(&buf, reader)
+		_, err := io.Copy(&buf, reader)
+		if err != nil {
+			log.Fatal(err)
+		}
 		out <- buf.String()
 	}()
 	wg.Wait()
@@ -50,7 +55,7 @@ func captureOutput(f func()) string {
 	return <-out
 }
 
-func fillStdin(f func(), input string) {
+func ProvideStdin(f func(), input string) {
 	// Setup custom file to use as Stdin
 	content := []byte(input)
 	tmpfile, err := ioutil.TempFile("", "example")
@@ -81,4 +86,14 @@ func fillStdin(f func(), input string) {
 	if err := tmpfile.Close(); err != nil {
 		log.Fatal(err)
 	}
+}
+
+func ParseShellArgs(input string) []string {
+	args, errArgs := shellwords.Parse(input)
+
+	if errArgs != nil {
+		log.Fatal(errArgs)
+	}
+
+	return args
 }

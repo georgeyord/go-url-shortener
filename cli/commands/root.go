@@ -21,7 +21,7 @@ var rootCmd = &cobra.Command{
 	Short:   "Given the short url, print the long url",
 	Version: viper.GetString("boot.timestamp"),
 	Run:     printUrlPair,
-	Args:    cobra.MinimumNArgs(1),
+	Args:    cobra.ExactArgs(1),
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
