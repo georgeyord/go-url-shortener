@@ -1,6 +1,7 @@
 package actions
 
 import (
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"strings"

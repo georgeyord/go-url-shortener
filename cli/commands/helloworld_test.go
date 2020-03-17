@@ -22,8 +22,6 @@ func TestHelloworldShouldReturnValidOutputWhenProvidedValidName(t *testing.T) {
 
 	// Check message exists
 	assert.Contains(t, captured, "Hello Foo!")
-	// Check Blue color hex exists
+	// Check correct color hex exists
 	assert.Contains(t, captured, "[35m")
-	// Check reset color hex exists
-	assert.Contains(t, captured, "[0m")
 }

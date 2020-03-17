@@ -52,5 +52,6 @@ func TestHelloWorldCallWithoutNameShouldRespondWithError(t *testing.T) {
 	// Make some assertions on the correctness of the response.
 	assert.Nil(t, err)
 	assert.NotEmpty(t, response["error"])
-	assert.Contains(t, response["error"], "name", "missing")
+	assert.Contains(t, response["error"], "name")
+	assert.Contains(t, response["error"], "missing")
 }

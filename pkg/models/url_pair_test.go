@@ -1,6 +1,7 @@
 package models
 
 import (
+	"log"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

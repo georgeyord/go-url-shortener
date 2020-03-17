@@ -15,7 +15,7 @@ func TestPrintMessageInBlue(t *testing.T) {
 
 	// Check message exists
 	assert.Contains(t, captured, "foo")
-	// Check Blue color hex exists
+	// Check correct color hex exists
 	assert.Contains(t, captured, "[34m")
 	// Check reset color hex exists
 	assert.Contains(t, captured, "[0m")
@@ -28,7 +28,7 @@ func TestPrintMessageInMagenta(t *testing.T) {
 
 	// Check message exists
 	assert.Contains(t, captured, "foo")
-	// Check Blue color hex exists
+	// Check correct color hex exists
 	assert.Contains(t, captured, "[35m")
 	// Check reset color hex exists
 	assert.Contains(t, captured, "[0m")
@@ -50,10 +50,8 @@ func TestGetInputWithValidInput(t *testing.T) {
 	assert.Contains(t, captured, "Please enter your")
 	// Check label exists
 	assert.Contains(t, captured, "foo")
-	// Check Blue color hex exists
+	// Check correct color hex exists
 	assert.Contains(t, captured, "[36m")
-	// Check reset color hex exists
-	assert.Contains(t, captured, "[0m")
 }
 
 func TestGetInputWithEmptyInput(t *testing.T) {

@@ -49,4 +49,5 @@ func createUrlPair(cmd *cobra.Command, args []string) {
 	}
 
 	cli.PrintMessage(fmt.Sprintf("New short url created: %s", urlPair.Short), aurora.Green)
+	cli.PrintMessage(fmt.Sprintf("Long url: %s", urlPair.Long), aurora.BrightGreen)
 }

@@ -38,7 +38,11 @@ func listUrlPairs(cmd *cobra.Command, args []string) {
 		return
 	}
 
-	for _, urlPair := range urlPairs {
-		cli.PrintMessage(fmt.Sprintf("%s\t%s", urlPair.Short, urlPair.Long), aurora.Cyan)
+	if len(urlPairs) > 0 {
+		for _, urlPair := range urlPairs {
+			cli.PrintMessage(fmt.Sprintf("%s\t%s", urlPair.Short, urlPair.Long), aurora.Cyan)
+		}
+	} else {
+		cli.PrintMessage("No records found!", aurora.Yellow)
 	}
 }

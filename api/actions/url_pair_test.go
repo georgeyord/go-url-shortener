@@ -3,6 +3,7 @@ package actions
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"testing"
 
@@ -98,7 +99,8 @@ func TestCreateUrlPairWithoutLongUrlShouldRespondWithErrorInJsonFormat(t *testin
 
 	assert.Nil(t, err)
 	assert.NotEmpty(t, response["error"])
-	assert.Contains(t, response["error"], "CreateUrlPairInput.Long", "required")
+	assert.Contains(t, response["error"], "CreateUrlPairInput.Long")
+	assert.Contains(t, response["error"], "required")
 }
 
 func TestListUrlPairsWithoutAnyPairsStortedShouldRespondWithAnEmptyListOfPairsInJsonFormat(t *testing.T) {
