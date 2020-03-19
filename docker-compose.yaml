@@ -8,14 +8,14 @@ services:
       dockerfile: Dockerfile
       context: .
       args:
-        TARGET_APP:  api
+        TARGET_APP: api
     environment:
       ENV: production
     volumes:
-      - ./data/volume-data:/app/data
+      - ./data/volumes/db:/app/data
     ports:
-      - target: 8080
-        published: 8080
+      - target: 8081
+        published: 8081
   # Usage: docker-compose run url-shortener-cli
   url-shortener-cli:
     image: github.com/georgeyord/url-shortener-cli:latest
@@ -23,9 +23,39 @@ services:
       dockerfile: Dockerfile
       context: .
       args:
-        TARGET_APP:  cli
+        TARGET_APP: cli
     environment:
       ENV: production
     volumes:
-      - ./data/volume-data:/app/data
+      - ./data/volumes/db:/app/data
+  # Usage: docker-compose run url-shortener-worker
+  url-shortener-worker:
+    image: github.com/georgeyord/url-shortener-worker:latest
+    build:
+      dockerfile: Dockerfile
+      context: .
+      args:
+        TARGET_APP: worker
+    environment:
+      ENV: production
+  kafka-lenses:
+    image: lensesio/box:latest
+    environment:
+      ADV_HOST: 127.0.0.1
+    # Get a demo token for the sandbox here: https://lenses.io/downloads/lenses/
+    env_file:
+      - lenses.env
+    ports:
+      # Lenses
+      - target: 3030
+        published: 3030
+      # Broker
+      - target: 9092
+        published: 9092
+      # Zookeeper
+      - target: 2181
+        published: 2181
+    volumes:
+      - ./data/volumes/lences/data:/data
+      - ./data/volumes/lences/logs:/logs
 

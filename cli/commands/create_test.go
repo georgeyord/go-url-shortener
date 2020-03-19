@@ -5,11 +5,14 @@ import (
 	"testing"
 
 	"github.com/georgeyord/go-url-shortener/pkg/test/cli"
+	"github.com/georgeyord/go-url-shortener/pkg/test/common"
+	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestCreateShouldReturnValidOutputWhenAValidUrlPairIsProvided(t *testing.T) {
-	initTestDb()
+	db := common.InitTestDb()
+	viper.Set("db", db)
 
 	args := cli.ParseShellArgs("create -l http://www.google.com -s 123")
 	rootCmd.SetArgs(args)

@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"context"
 	"fmt"
 	"os"
 
@@ -8,6 +9,7 @@ import (
 	"github.com/georgeyord/go-url-shortener/pkg/models"
 	"github.com/jinzhu/gorm"
 	"github.com/logrusorgru/aurora"
+	kafkalib "github.com/segmentio/kafka-go"
 	"github.com/spf13/viper"
 
 	"github.com/spf13/cobra"
@@ -45,5 +47,15 @@ func printUrlPair(cmd *cobra.Command, args []string) {
 		return
 	}
 
+	var writer *kafkalib.Writer
+	statsTopic := viper.GetString("kafka.topics.stats")
+	viperStatsWriter := viper.Get(statsTopic)
+	if viperStatsWriter != nil {
+		writer = viperStatsWriter.(*kafkalib.Writer)
+		writer.WriteMessages(context.Background(), kafkalib.Message{
+			Key:   []byte(urlPair.Short),
+			Value: []byte(urlPair.Long),
+		})
+	}
 	cli.PrintMessage(urlPair.Long, aurora.Cyan)
 }

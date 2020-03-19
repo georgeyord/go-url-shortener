@@ -1,11 +1,15 @@
 package actions
 
 import (
+	"context"
+	"log"
 	"net/http"
 
 	"github.com/georgeyord/go-url-shortener/pkg/models"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
+	kafkalib "github.com/segmentio/kafka-go"
+	"github.com/spf13/viper"
 )
 
 type CreateUrlPairInput struct {
@@ -58,6 +62,19 @@ func Redirect(c *gin.Context) {
 	if err := db.Where("short = ?", short).First(&urlPair).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
+	}
+
+	statsTopic := viper.GetString("kafka.topics.stats")
+	writerValue, writerExists := c.Get(statsTopic)
+	if writerExists {
+		writer := writerValue.(*kafkalib.Writer)
+		errWriter := writer.WriteMessages(context.Background(), kafkalib.Message{
+			Key:   []byte(urlPair.Short),
+			Value: []byte(urlPair.Long),
+		})
+		if errWriter != nil {
+			log.Fatal(errWriter)
+		}
 	}
 
 	c.Redirect(http.StatusPermanentRedirect, urlPair.Long)

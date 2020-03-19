@@ -1,2 +1,5 @@
 server:
   address: ""
+
+kafka:
+  brokers: 172.17.0.1:9092

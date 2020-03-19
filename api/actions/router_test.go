@@ -6,7 +6,7 @@ import (
 	"net/http/httptest"
 	"strings"
 
-	"github.com/georgeyord/go-url-shortener/pkg/models"
+	"github.com/georgeyord/go-url-shortener/pkg/test/common"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
@@ -16,20 +16,11 @@ import (
 func runTestRouter() (*gin.Engine, *gorm.DB) {
 	router := gin.Default()
 	gin.SetMode(gin.TestMode)
-	db := initTestDb()
-	SetupMiddlewares(router, db)
+	db := common.InitTestDb()
+	kafkaWriters := common.InitTestKafkaWriters()
+	SetupMiddlewares(router, db, kafkaWriters)
 	MapRoutes(router)
 	return router, db
-}
-
-// Grab the Gin router with registered routes
-func initTestDb() *gorm.DB {
-	db, err := gorm.Open("sqlite3", ":memory:")
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-	models.SetupModels(db)
-	return db
 }
 
 func performMockedGet(r http.Handler, path string) *httptest.ResponseRecorder {

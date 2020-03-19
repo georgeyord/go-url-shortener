@@ -4,13 +4,17 @@ import (
 	"log"
 	"testing"
 
+	"github.com/georgeyord/go-url-shortener/pkg/test/common"
+	"github.com/spf13/viper"
+
 	"github.com/georgeyord/go-url-shortener/pkg/models"
 	"github.com/georgeyord/go-url-shortener/pkg/test/cli"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestRootCommandShouldReturnValidLongUrlWhenAValidShortUrlIsProvided(t *testing.T) {
-	db := initTestDb()
+	db := common.InitTestDb()
+	viper.Set("db", db)
 
 	urlPair := models.NewUrlPair("http://www.google.com", "123")
 	if err := db.Create(&urlPair).Error; err != nil {
@@ -27,7 +31,7 @@ func TestRootCommandShouldReturnValidLongUrlWhenAValidShortUrlIsProvided(t *test
 		}
 	})
 
-	// Checek message exists
+	// Check message exists
 	assert.Contains(t, captured, "http://www.google.com")
 	// Check correct color hex exists
 	assert.Contains(t, captured, "[36m")

@@ -7,7 +7,18 @@ import (
 )
 
 func main() {
-	db := config.Init()
+	config.Init()
+
+	// Provide db to commands
+	db := config.InitDb()
 	viper.Set("db", db)
+
+	// Provide kafka stats writer to commands
+	kafkaWriters := config.InitKafkaWriters()
+	statsTopic := viper.GetString("kafka.topics.stats")
+	if kafkaWriters[statsTopic] == nil {
+		viper.Set(statsTopic, kafkaWriters[statsTopic])
+	}
+
 	commands.Execute()
 }

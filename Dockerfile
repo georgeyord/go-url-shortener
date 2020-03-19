@@ -46,7 +46,7 @@ RUN mkdir -p ../data && \
     mkdir -p ../log && \
     chown www-data:www-data ../log
 
-EXPOSE 8080
+EXPOSE 8081
 
 USER www-data
 

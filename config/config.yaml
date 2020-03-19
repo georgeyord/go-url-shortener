@@ -1,6 +1,6 @@
 server:
   address: localhost
-  port: 8080
+  port: 8081
 
 application:
   name: Url shortener
@@ -11,7 +11,17 @@ db:
   type: sqlite3
   path: ../data/shortener.db
 
+kafka:
+  brokers:
+    - 127.0.0.1:9092
+    - 127.0.0.1:9093
+  topics:
+    stats: url-shortener-stats
+  bytes:
+    min: 10e3 // 10KB
+    max: 10e5 // 1MB
+
 cmd:
   name:
     # Comment out to print default name
-    default: cosmos
+    # default: cosmos

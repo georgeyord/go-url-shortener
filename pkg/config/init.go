@@ -6,20 +6,19 @@ import (
 	"os"
 	"time"
 
+	"github.com/common-nighthawk/go-figure"
+	kafka "github.com/georgeyord/go-url-shortener/pkg/kafka"
 	"github.com/georgeyord/go-url-shortener/pkg/models"
+	kafkalib "github.com/segmentio/kafka-go"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"github.com/spf13/viper"
 )
 
-func Init() *gorm.DB {
+func Init() {
 	initApplicationEnv()
 	initConfig()
-	db := initDb()
-	models.SetupModels(db)
-
-	return db
 }
 
 func initConfig() {
@@ -40,7 +39,7 @@ func initConfig() {
 	}
 }
 
-func initDb() *gorm.DB {
+func InitDb() *gorm.DB {
 	dbType := viper.GetString("db.type")
 	dbPath := viper.GetString("db.path")
 
@@ -51,9 +50,24 @@ func initDb() *gorm.DB {
 	}
 
 	log.Printf("DB of type %s loaded from: %s", dbType, dbPath)
+	models.SetupModels(db)
 
-	viper.Set("db", db)
 	return db
+}
+
+func InitKafkaWriters() map[string]*kafkalib.Writer {
+	statsTopic := viper.GetString("kafka.topics.stats")
+	statsWriter := kafka.NewWriter(statsTopic)
+	log.Printf("New kafka writer started for topic '%s'", statsTopic)
+
+	return map[string]*kafkalib.Writer{
+		statsTopic: statsWriter,
+	}
+}
+
+func PrintIntro() {
+	appFigure := figure.NewFigure(viper.GetString("application.name"), viper.GetString("application.asciiart.theme"), true)
+	appFigure.Print()
 }
 
 func initApplicationEnv() {

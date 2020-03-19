@@ -6,11 +6,14 @@ import (
 
 	"github.com/georgeyord/go-url-shortener/pkg/models"
 	"github.com/georgeyord/go-url-shortener/pkg/test/cli"
+	"github.com/georgeyord/go-url-shortener/pkg/test/common"
+	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestListShouldReturnValidOutputWhenNoUrlPairsAreFound(t *testing.T) {
-	initTestDb()
+	db := common.InitTestDb()
+	viper.Set("db", db)
 
 	args := cli.ParseShellArgs("list")
 	rootCmd.SetArgs(args)
@@ -29,7 +32,8 @@ func TestListShouldReturnValidOutputWhenNoUrlPairsAreFound(t *testing.T) {
 }
 
 func TestListShouldReturnValidOutputWhenAUrlPairIsFound(t *testing.T) {
-	db := initTestDb()
+	db := common.InitTestDb()
+	viper.Set("db", db)
 
 	urlPair := models.NewUrlPair("http://www.google.com", "123")
 	if err := db.Create(&urlPair).Error; err != nil {
