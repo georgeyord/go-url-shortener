@@ -8,9 +8,9 @@ A url shortener includes 3 components:
 
 > The redirection module and the API co-exist under one single web server
 
-# Development
+## Development
 
-## Prepare local running
+### Prepare local running
 
 First download dependencies:
 ```
@@ -23,7 +23,7 @@ Verify test are running successfully:
 make test
 ```
 
-## Run the api server locally
+### Run the api server locally
 
 
 Run `url-shortener-api` command:
@@ -43,7 +43,7 @@ Then, you can run the binary:
 ```
 
 
-## Run the cli locally
+### Run the cli locally
 
 Run `url-shortener` command:
 ```
@@ -61,7 +61,25 @@ Then, you can run the binary:
 ./bin/url-shortener-cli
 ```
 
-## Run the web server with docker
+### Run the worker locally
+
+Run `url-shortener` command:
+```
+make run-url-shortener-worker
+```
+
+
+Build `url-shortener` binary:
+```
+make build-url-shortener-worker
+```
+
+Then, you can run the binary:
+```
+./bin/url-shortener-worker
+```
+
+### Run the web server with docker
 
 First build:
 ```
@@ -73,9 +91,21 @@ then, run:
 docker-compose run url-shortener-api
 ```
 
-# Business requirements
+### Run the worker with docker
 
-## Redirection module
+First build:
+```
+docker-compose build url-shortener-worker
+```
+
+then, run:
+```
+docker-compose run url-shortener-worker
+```
+
+## Business requirements
+
+### Redirection module
 
 - Can read the short url - Done
 - Can check if the short url exists
@@ -86,7 +116,7 @@ docker-compose run url-shortener-api
 - Can redirect to long url honoring the incoming query params
 - Can keep stats of the short url usage (using Kafka)
 
-## API for admininstartion
+### API for admininstartion
 
 - Can create a pair of short/long urls - Done
 - Can check if a short url exists
@@ -98,7 +128,7 @@ docker-compose run url-shortener-api
 - Can have multiple storage options (file, key-value db, traditional db etc.)
 - Can run behind an authentication wall
 
-## CLI for admininstartion
+### CLI for admininstartion
 
 - Can create a pair of short/long urls - Done
 - Can check if a short url exists
@@ -107,11 +137,11 @@ docker-compose run url-shortener-api
 - Can use authentication to access the API
 - Add [shell completion](https://github.com/helm/helm/blob/26830942d275b3a70edfdc32474230f3499a18e4/cmd/helm/root.go#L85)
 
-# Technical requirements
+## Technical requirements
 
 - Can use web and cli as separate docker images
 
-# Implementation tracking
+## Implementation tracking
 
 Here is the long list...
 
@@ -127,6 +157,6 @@ First some technical requirements:
 - Use [Corba](https://github.com/spf13/cobra) for cli - Done - Feb 2020
 - Use Enum for valid application environments
 
-# Thank you...
+## Thank you...
 
 > API is heavily influenced by [informatics-lab/url-shortener](https://github.com/informatics-lab/url-shortener)

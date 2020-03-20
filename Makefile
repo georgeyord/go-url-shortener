@@ -63,4 +63,6 @@ test-deps:
 	@go get -u github.com/rakyll/gotest
 	@go get -u github.com/stretchr/testify
 
-.PHONY: clean deps build-url-shortener-api docker-build-url-shortener-api run-url-shortener-api test-api build-url-shortener-worker docker-build-url-shortener-worker run-url-shortener-worker test-worker build-url-shortener-cli docker-build-url-shortener-cli run-url-shortener-cli test-cli test test-pkg test-deps prepare prepare-paths
+docker-build-all: docker-build-url-shortener-api docker-build-url-shortener-cli docker-build-url-shortener-worker
+
+.PHONY: clean prepare prepare-paths deps build-url-shortener-api docker-build-url-shortener-api run-url-shortener-api test-api build-url-shortener-worker docker-build-url-shortener-worker run-url-shortener-worker test-worker build-url-shortener-cli docker-build-url-shortener-cli run-url-shortener-cli test-cli test test-pkg test-deps
