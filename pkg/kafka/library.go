@@ -36,7 +36,7 @@ func NewWriter(topic string) *kafkalib.Writer {
 		CompressionCodec: snappy.NewCompressionCodec(),
 	})
 
-	defer writer.Close()
+	// defer writer.Close()
 
 	log.Printf("New kafka writer at '%v' started for topic '%s'", brokers, topic)
 	return writer

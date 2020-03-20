@@ -64,6 +64,13 @@ func InitKafkaWriters() map[string]*kafkalib.Writer {
 	}
 }
 
+func CloseKafkaWriters(writers map[string]*kafkalib.Writer) {
+	for topic, writer := range writers {
+		log.Printf("Closing kafka writer for topic '%s'", topic)
+		writer.Close()
+	}
+}
+
 func PrintIntro(role string) {
 	appFigure := figure.NewFigure(viper.GetString("application.name"), viper.GetString("application.asciiart.theme"), true)
 	appFigure.Print()

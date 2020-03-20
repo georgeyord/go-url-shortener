@@ -19,6 +19,7 @@ func runRouter() {
 
 	db := config.InitDb()
 	kafkaWriters := config.InitKafkaWriters()
+	defer config.CloseKafkaWriters(kafkaWriters)
 	actions.SetupMiddlewares(router, db, kafkaWriters)
 
 	actions.MapRoutes(router)
