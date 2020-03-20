@@ -8,11 +8,18 @@ import (
 )
 
 func SetupMiddlewares(router *gin.Engine, db *gorm.DB, kafkaWriters map[string]*kafkalib.Writer) {
+	// Write the logs to gin.DefaultWriter
+	router.Use(gin.Logger())
+
+	// Recover from any panics and writes a 500 if there was one
+	router.Use(gin.Recovery())
+
 	// Provide db to controllers
 	router.Use(func(c *gin.Context) {
 		c.Set("db", db)
 		c.Next()
 	})
+
 	// Provide kafka stats writer to controllers
 	statsTopic := viper.GetString("kafka.writers.stats.topic")
 	if kafkaWriters[statsTopic] != nil {

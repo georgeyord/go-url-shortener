@@ -10,7 +10,7 @@ import (
 )
 
 func runRouter() {
-	router := gin.Default()
+	router := gin.New()
 
 	if viper.GetString("env") == "production" {
 		log.Print("Running Gin in 'release' mode in production.")
