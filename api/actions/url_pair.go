@@ -2,6 +2,7 @@ package actions
 
 import (
 	"context"
+	"encoding/json"
 	"log"
 	"net/http"
 
@@ -64,18 +65,46 @@ func Redirect(c *gin.Context) {
 		return
 	}
 
+	defer writeStats(c, urlPair)
+	c.Redirect(http.StatusPermanentRedirect, urlPair.Long)
+}
+
+func writeStats(c *gin.Context, urlPair models.UrlPair) {
+	type Message struct {
+		Short string `json:"short"`
+		Long  string `json:"long"`
+		Host  string `json:"host"`
+	}
+
+	var message Message
+	headers := []kafkalib.Header{
+		kafkalib.Header{
+			Key:   "requestURI",
+			Value: []byte(c.Request.RequestURI),
+		},
+	}
+
 	statsTopic := viper.GetString("kafka.writers.stats.topic")
 	writerValue, writerExists := c.Get(statsTopic)
 	if writerExists {
 		writer := writerValue.(*kafkalib.Writer)
+
+		message.Short = urlPair.Short
+		message.Long = urlPair.Long
+		message.Host = c.Request.Host
+
+		jsonMessage, errJson := json.Marshal(message)
+		if errJson != nil {
+			log.Println(errJson)
+			return
+		}
+
 		errWriter := writer.WriteMessages(context.Background(), kafkalib.Message{
-			Key:   []byte(urlPair.Short),
-			Value: []byte(urlPair.Long),
+			Headers: headers,
+			Value:   jsonMessage,
 		})
 		if errWriter != nil {
-			log.Fatal(errWriter)
+			log.Println(errWriter)
 		}
 	}
-
-	c.Redirect(http.StatusPermanentRedirect, urlPair.Long)
 }

@@ -29,10 +29,7 @@ func RunStatsReader(topic, groupId string) {
 
 			value := msg.Value
 
-			fmt.Printf("Message: %s\t\t(Topic/partition/offset: %v/%v/%v)\n", string(value), msg.Topic, msg.Partition, msg.Offset)
-			log.Printf("%v", string(msg.Key))
-			log.Printf("%v", msg.Headers)
-			log.Printf("%v", msg.Time)
+			fmt.Printf("Message at %s: %s (Topic/partition/offset: %v/%v/%v)\n", msg.Time, string(value), msg.Topic, msg.Partition, msg.Offset)
 		}
 		log.Printf("Sleeping for %d seconds (%d retry)", sleepOnError, usedRetries)
 

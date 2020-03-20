@@ -6,7 +6,7 @@ application:
   name: Url shortener
   asciiart:
     # Choose from: https://github.com/common-nighthawk/go-figure#supported-fonts
-    theme: alphabet
+    theme: puffy
     subtheme: puffy
 
 db:
