@@ -1,2 +1,5 @@
 server:
   address: ""
+
+logger:
+  errorlevel: info

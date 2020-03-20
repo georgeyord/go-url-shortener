@@ -1,12 +1,12 @@
 package commands
 
 import (
-	"log"
 	"testing"
 
 	"github.com/georgeyord/go-url-shortener/pkg/models"
 	"github.com/georgeyord/go-url-shortener/pkg/test/cli"
 	"github.com/georgeyord/go-url-shortener/pkg/test/common"
+	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
 )
@@ -21,7 +21,7 @@ func TestListShouldReturnValidOutputWhenNoUrlPairsAreFound(t *testing.T) {
 	captured := cli.CaptureOutput(func() {
 		_, err := rootCmd.ExecuteC()
 		if err != nil {
-			log.Fatal(err)
+			log.Fatal().Err(err).Msg("")
 		}
 	})
 
@@ -37,7 +37,7 @@ func TestListShouldReturnValidOutputWhenAUrlPairIsFound(t *testing.T) {
 
 	urlPair := models.NewUrlPair("http://www.google.com", "123")
 	if err := db.Create(&urlPair).Error; err != nil {
-		log.Fatal(err.Error())
+		log.Fatal().Err(err).Msg("")
 	}
 
 	args := cli.ParseShellArgs("list")
@@ -46,7 +46,7 @@ func TestListShouldReturnValidOutputWhenAUrlPairIsFound(t *testing.T) {
 	captured := cli.CaptureOutput(func() {
 		_, err := rootCmd.ExecuteC()
 		if err != nil {
-			log.Fatal(err)
+			log.Fatal().Err(err).Msg("")
 		}
 	})
 

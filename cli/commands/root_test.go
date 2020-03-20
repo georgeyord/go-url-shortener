@@ -1,8 +1,9 @@
 package commands
 
 import (
-	"log"
 	"testing"
+
+	"github.com/rs/zerolog/log"
 
 	"github.com/georgeyord/go-url-shortener/pkg/test/common"
 	"github.com/spf13/viper"
@@ -18,7 +19,7 @@ func TestRootCommandShouldReturnValidLongUrlWhenAValidShortUrlIsProvided(t *test
 
 	urlPair := models.NewUrlPair("http://www.google.com", "123")
 	if err := db.Create(&urlPair).Error; err != nil {
-		log.Fatal(err.Error())
+		log.Fatal().Err(err).Msg("")
 	}
 
 	args := cli.ParseShellArgs("123")
@@ -27,7 +28,7 @@ func TestRootCommandShouldReturnValidLongUrlWhenAValidShortUrlIsProvided(t *test
 	captured := cli.CaptureOutput(func() {
 		_, err := rootCmd.ExecuteC()
 		if err != nil {
-			log.Fatal(err)
+			log.Fatal().Err(err).Msg("")
 		}
 	})
 

@@ -1,11 +1,11 @@
 package commands
 
 import (
-	"log"
 	"testing"
 
 	"github.com/georgeyord/go-url-shortener/pkg/test/cli"
 	"github.com/georgeyord/go-url-shortener/pkg/test/common"
+	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
 )
@@ -20,7 +20,7 @@ func TestCreateShouldReturnValidOutputWhenAValidUrlPairIsProvided(t *testing.T) 
 	captured := cli.CaptureOutput(func() {
 		_, err := rootCmd.ExecuteC()
 		if err != nil {
-			log.Fatal(err)
+			log.Fatal().Err(err).Msg("")
 		}
 	})
 

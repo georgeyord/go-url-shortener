@@ -3,7 +3,9 @@ package cli
 import (
 	"bufio"
 	"fmt"
-	"log"
+
+	"github.com/rs/zerolog/log"
+
 	"os"
 	"strings"
 	"testing"
@@ -29,7 +31,7 @@ func TestProvideStdin(t *testing.T) {
 			captured = strings.TrimSpace(scanner.Text())
 		}
 		if err := scanner.Err(); err != nil {
-			log.Fatal(err)
+			log.Fatal().Err(err).Msg("")
 		}
 	}, "foo")
 

@@ -2,11 +2,11 @@ package readers
 
 import (
 	"context"
-	"fmt"
-	"log"
+	"encoding/json"
 	"time"
 
 	"github.com/georgeyord/go-url-shortener/pkg/kafka"
+	"github.com/rs/zerolog/log"
 	kafkalib "github.com/segmentio/kafka-go"
 	_ "github.com/segmentio/kafka-go/snappy"
 )
@@ -23,19 +23,42 @@ func RunStatsReader(topic, groupId string) {
 		for {
 			msg, err := reader.ReadMessage(context.Background())
 			if err != nil {
-				log.Printf("Error while receiving message on topic '%s': %s", topic, err.Error())
+				log.Error().Str("topic", topic).Err(err).Msg("Error while receiving message")
 				break
 			}
 
-			value := msg.Value
-
-			fmt.Printf("Message at %s: %s (Topic/partition/offset: %v/%v/%v)\n", msg.Time, string(value), msg.Topic, msg.Partition, msg.Offset)
+			parse(msg, topic)
 		}
-		log.Printf("Sleeping for %d seconds (%d retry)", sleepOnError, usedRetries)
+		log.Warn().Int("duration", sleepOnError).Int("retry", usedRetries).Msg("Sleeping...")
 
 		reader.Close()
 		time.Sleep(sleepOnError * time.Second)
 	}
 
 	defer reader.Close()
+}
+
+func parse(msg kafkalib.Message, topic string) {
+	jsonValue := msg.Value
+	var value map[string]string
+	errJson := json.Unmarshal(jsonValue, &value)
+	if errJson != nil {
+		log.Error().
+			Str("v", string(jsonValue)).
+			Str("topic", topic).
+			Err(errJson).
+			Msg("Error while decoding json value")
+		return
+	}
+
+	log.Info().
+		Str("v", string(jsonValue)).
+		Str("short", value["short"]).
+		Str("long", value["long"]).
+		Str("host", value["host"]).
+		Time("time", msg.Time).
+		Str("topic", msg.Topic).
+		Int("partition", msg.Partition).
+		Int64("offset", msg.Offset).
+		Msg("Message received")
 }

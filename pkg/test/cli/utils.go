@@ -4,9 +4,12 @@ import (
 	"bytes"
 	"io"
 	"io/ioutil"
-	"log"
 	"os"
 	"sync"
+
+	stdlog "log"
+
+	"github.com/rs/zerolog/log"
 
 	shellwords "github.com/mattn/go-shellwords"
 )
@@ -15,7 +18,7 @@ func CaptureOutput(f func()) string {
 	// Setup custom writer to use as Stdout/Stderr
 	reader, writer, err := os.Pipe()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal().Err(err).Msg("")
 	}
 
 	// Revert and cleanup
@@ -24,13 +27,13 @@ func CaptureOutput(f func()) string {
 	defer func() {
 		os.Stdout = stdout
 		os.Stderr = stderr
-		log.SetOutput(os.Stderr)
+		stdlog.SetOutput(os.Stderr)
 	}()
 
 	// Use custom writer
 	os.Stdout = writer
 	os.Stderr = writer
-	log.SetOutput(writer)
+	stdlog.SetOutput(writer)
 	out := make(chan string)
 	wg := new(sync.WaitGroup)
 	wg.Add(1)
@@ -39,7 +42,7 @@ func CaptureOutput(f func()) string {
 		wg.Done()
 		_, err := io.Copy(&buf, reader)
 		if err != nil {
-			log.Fatal(err)
+			log.Fatal().Err(err).Msg("")
 		}
 		out <- buf.String()
 	}()
@@ -60,13 +63,13 @@ func ProvideStdin(f func(), input string) {
 	content := []byte(input)
 	tmpfile, err := ioutil.TempFile("", "example")
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal().Err(err).Msg("")
 	}
 	if _, err := tmpfile.Write(content); err != nil {
-		log.Fatal(err)
+		log.Fatal().Err(err).Msg("")
 	}
 	if _, err := tmpfile.Seek(0, 0); err != nil {
-		log.Fatal(err)
+		log.Fatal().Err(err).Msg("")
 	}
 
 	// Revert and cleanup
@@ -84,7 +87,7 @@ func ProvideStdin(f func(), input string) {
 	// }
 
 	if err := tmpfile.Close(); err != nil {
-		log.Fatal(err)
+		log.Fatal().Err(err).Msg("")
 	}
 }
 
@@ -92,7 +95,7 @@ func ParseShellArgs(input string) []string {
 	args, errArgs := shellwords.Parse(input)
 
 	if errArgs != nil {
-		log.Fatal(errArgs)
+		log.Fatal().Err(errArgs).Msg("")
 	}
 
 	return args

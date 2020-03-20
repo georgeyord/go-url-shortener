@@ -3,12 +3,12 @@ package actions
 import (
 	"context"
 	"encoding/json"
-	"log"
 	"net/http"
 
 	"github.com/georgeyord/go-url-shortener/pkg/models"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
+	"github.com/rs/zerolog/log"
 	kafkalib "github.com/segmentio/kafka-go"
 	"github.com/spf13/viper"
 )
@@ -95,7 +95,7 @@ func writeStats(c *gin.Context, urlPair models.UrlPair) {
 
 		jsonMessage, errJson := json.Marshal(message)
 		if errJson != nil {
-			log.Println(errJson)
+			log.Error().Err(errJson).Msg("")
 			return
 		}
 
@@ -104,7 +104,7 @@ func writeStats(c *gin.Context, urlPair models.UrlPair) {
 			Value:   jsonMessage,
 		})
 		if errWriter != nil {
-			log.Println(errWriter)
+			log.Error().Err(errWriter).Msg("")
 		}
 	}
 }

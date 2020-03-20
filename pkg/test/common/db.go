@@ -1,7 +1,7 @@
 package common
 
 import (
-	"log"
+	"github.com/rs/zerolog/log"
 
 	"github.com/georgeyord/go-url-shortener/pkg/models"
 	"github.com/jinzhu/gorm"
@@ -11,7 +11,7 @@ import (
 func InitTestDb() *gorm.DB {
 	db, err := gorm.Open("sqlite3", ":memory:")
 	if err != nil {
-		log.Fatal(err.Error())
+		log.Fatal().Err(err).Msg("")
 	}
 	models.SetupModels(db)
 	return db

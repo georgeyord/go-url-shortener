@@ -6,11 +6,11 @@ import (
 	"github.com/spf13/viper"
 )
 
-const Role = "worker"
+const role = "worker"
 
 func main() {
-	config.Init()
-	config.PrintIntro(Role)
+	config.Init(role)
+	config.PrintIntro()
 
 	topic := viper.GetString("kafka.readers.stats.topic")
 	groupId := viper.GetString("kafka.readers.stats.groupId")

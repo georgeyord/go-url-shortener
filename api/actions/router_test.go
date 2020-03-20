@@ -1,7 +1,6 @@
 package actions
 
 import (
-	"log"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -11,6 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	"github.com/rs/zerolog/log"
 )
 
 func runTestRouter() (*gin.Engine, *gorm.DB) {
@@ -34,7 +34,7 @@ func performMockedPost(router http.Handler, path string, payload string) *httpte
 	req, err := http.NewRequest(http.MethodPost, path, strings.NewReader(payload))
 
 	if err != nil {
-		log.Fatal(err.Error())
+		log.Fatal().Err(err).Msg("")
 	}
 
 	w := httptest.NewRecorder()

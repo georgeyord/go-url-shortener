@@ -1,7 +1,7 @@
 package models
 
 import (
-	"log"
+	"github.com/rs/zerolog/log"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
@@ -10,7 +10,7 @@ import (
 func initTestDb() *gorm.DB {
 	db, err := gorm.Open("sqlite3", ":memory:")
 	if err != nil {
-		log.Fatal(err.Error())
+		log.Fatal().Err(err).Msg("")
 	}
 	SetupModels(db)
 	return db

@@ -9,6 +9,13 @@ application:
     theme: puffy
     subtheme: puffy
 
+logger:
+  errorlevel: debug
+  targets:
+    - type: human
+    # - type: file
+    #   path: ../log/application.log
+
 db:
   type: sqlite3
   path: ../data/shortener.db

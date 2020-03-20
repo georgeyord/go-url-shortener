@@ -1,8 +1,7 @@
 package kafka
 
 import (
-	"log"
-
+	"github.com/rs/zerolog/log"
 	"github.com/segmentio/kafka-go"
 	kafkalib "github.com/segmentio/kafka-go"
 	"github.com/segmentio/kafka-go/snappy"
@@ -22,7 +21,7 @@ func NewReader(topic, groupID string) *kafkalib.Reader {
 		MaxBytes: maxBytes,
 	})
 
-	log.Printf("New kafka reader at '%v' with groupId '%s' started for topic '%s'", brokers, groupID, topic)
+	log.Info().Str("topic", topic).Str("groupID", groupID).Msg("New kafka reader started")
 	return reader
 }
 
@@ -36,8 +35,6 @@ func NewWriter(topic string) *kafkalib.Writer {
 		CompressionCodec: snappy.NewCompressionCodec(),
 	})
 
-	// defer writer.Close()
-
-	log.Printf("New kafka writer at '%v' started for topic '%s'", brokers, topic)
+	log.Info().Str("topic", topic).Msg("New kafka writer started")
 	return writer
 }

@@ -1,10 +1,10 @@
 package commands
 
 import (
-	"log"
 	"testing"
 
 	"github.com/georgeyord/go-url-shortener/pkg/test/cli"
+	"github.com/rs/zerolog/log"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -16,7 +16,7 @@ func TestHelloworldShouldReturnValidOutputWhenProvidedValidName(t *testing.T) {
 	captured := cli.CaptureOutput(func() {
 		_, err := rootCmd.ExecuteC()
 		if err != nil {
-			log.Fatal(err)
+			log.Fatal().Err(err).Msg("")
 		}
 	})
 

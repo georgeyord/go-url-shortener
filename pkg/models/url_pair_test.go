@@ -1,8 +1,9 @@
 package models
 
 import (
-	"log"
 	"testing"
+
+	"github.com/rs/zerolog/log"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -23,7 +24,7 @@ func TestBeforeSaveWhileCreatingNewModelShouldReturnNoErrorsOnValidModel(t *test
 	db := initTestDb()
 	urlPair := NewUrlPair(long, short)
 	if err := db.Create(&urlPair).Error; err != nil {
-		log.Fatal(err.Error())
+		log.Fatal().Err(err).Msg("")
 	}
 
 	assert.Equal(t, long, urlPair.Long)
@@ -40,7 +41,7 @@ func TestBeforeSaveWhileCreatingNewModelShouldCreateRandomShortUrlWhenShortUrlIs
 	db := initTestDb()
 	urlPair := NewUrlPair(long, short)
 	if err := db.Create(&urlPair).Error; err != nil {
-		log.Fatal(err.Error())
+		log.Fatal().Err(err).Msg("")
 	}
 
 	assert.Equal(t, long, urlPair.Long)
@@ -69,7 +70,7 @@ func TestBeforeSaveWhileCreatingNewModelShouldReturnErrorWhenShortUrlAlreadyExis
 	db := initTestDb()
 	urlPair1 := NewUrlPair(long, short)
 	if err := db.Create(&urlPair1).Error; err != nil {
-		log.Fatal(err.Error())
+		log.Fatal().Err(err).Msg("")
 	}
 
 	urlPair2 := NewUrlPair(long, short)
@@ -86,7 +87,7 @@ func TestBeforeSaveWhileCreatingNewModelShouldReturnSuccessfullyWhenShortUrlAlre
 	db := initTestDb()
 	urlPair := NewUrlPair(long, short)
 	if err := db.Create(&urlPair).Error; err != nil {
-		log.Fatal(err.Error())
+		log.Fatal().Err(err).Msg("")
 	}
 
 	assert.Equal(t, long, urlPair.Long)
@@ -102,7 +103,7 @@ func TestBeforeSaveWhileCreatingNewModelShouldReturnSuccessfullyWhenShortUrlAlre
 
 	urlPair.Long = "https://www.google.de"
 	if err := db.Save(&urlPair).Error; err != nil {
-		log.Fatal(err.Error())
+		log.Fatal().Err(err).Msg("")
 	}
 
 	assert.Equal(t, oldShort, urlPair.Short)
@@ -115,7 +116,7 @@ func TestShortExistsWithExistingShortUrlShouldReturnTrue(t *testing.T) {
 	db := initTestDb()
 	urlPair := NewUrlPair("http://www.google.com", "123")
 	if err := db.Create(&urlPair).Error; err != nil {
-		log.Fatal(err.Error())
+		log.Fatal().Err(err).Msg("")
 	}
 
 	got, err := ShortExists("123", db)

@@ -1,11 +1,10 @@
 package main
 
 import (
-	"log"
-
 	"github.com/georgeyord/go-url-shortener/api/actions"
 	"github.com/georgeyord/go-url-shortener/pkg/config"
 	"github.com/gin-gonic/gin"
+	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
 )
 
@@ -13,7 +12,7 @@ func runRouter() {
 	router := gin.New()
 
 	if viper.GetString("env") == "production" {
-		log.Print("Running Gin in 'release' mode in production.")
+		log.Info().Str("mode", gin.ReleaseMode).Msg("Running Gin in production")
 		gin.SetMode(gin.ReleaseMode)
 	}
 
@@ -25,6 +24,6 @@ func runRouter() {
 	actions.MapRoutes(router)
 
 	if err := router.Run(getServerAddress()); err != nil {
-		log.Fatal(err)
+		log.Fatal().Err(err).Msg("Router failed")
 	}
 }

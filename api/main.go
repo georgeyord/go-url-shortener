@@ -4,11 +4,11 @@ import (
 	"github.com/georgeyord/go-url-shortener/pkg/config"
 )
 
-const Role = "api"
+const role = "api"
 
 func main() {
-	config.Init()
-	config.PrintIntro(Role)
+	config.Init(role)
+	config.PrintIntro()
 
 	// Application blocking, always run last
 	runRouter()

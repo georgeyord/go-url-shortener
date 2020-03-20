@@ -2,9 +2,10 @@ package config
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"time"
+
+	"github.com/rs/zerolog/log"
 
 	"github.com/common-nighthawk/go-figure"
 	kafka "github.com/georgeyord/go-url-shortener/pkg/kafka"
@@ -16,9 +17,10 @@ import (
 	"github.com/spf13/viper"
 )
 
-func Init() {
-	initApplicationEnv()
+func Init(role string) {
+	initApplicationEnv(role)
 	initConfig()
+	initLogger()
 }
 
 func initConfig() {
@@ -29,13 +31,15 @@ func initConfig() {
 		loadConfigFile("config.docker")
 	}
 
-	loadConfigFile("config." + viper.GetString("env"))
+	loadConfigFile(fmt.Sprintf("config.%s", viper.GetString("env")))
+	loadConfigFile(fmt.Sprintf("config.%s", viper.GetString("role")))
+	loadConfigFile(fmt.Sprintf("config.%s.%s", viper.GetString("role"), viper.GetString("env")))
 
-	viper.SetEnvPrefix("SCRUMPOKER")
+	viper.SetEnvPrefix("SHORTENER")
 	viper.AutomaticEnv()
 
 	if err := viper.WriteConfigAs("../log/config.yaml"); err != nil {
-		log.Printf("Writing config backup failed: %s", err)
+		log.Warn().Err(err).Msg("Writing config backup failed")
 	}
 }
 
@@ -46,10 +50,10 @@ func InitDb() *gorm.DB {
 	db, err := gorm.Open(dbType, dbPath)
 
 	if err != nil {
-		log.Fatal(fmt.Sprintf("Failed to connect to '%s' database '%s'\nError: %s", dbType, dbPath, err.Error()))
+		log.Fatal().Str("type", dbType).Str("path", dbPath).Err(err).Msg("Database failed to connect")
 	}
 
-	log.Printf("DB of type %s loaded from: %s", dbType, dbPath)
+	log.Info().Msg("Database loaded")
 	models.SetupModels(db)
 
 	return db
@@ -66,37 +70,38 @@ func InitKafkaWriters() map[string]*kafkalib.Writer {
 
 func CloseKafkaWriters(writers map[string]*kafkalib.Writer) {
 	for topic, writer := range writers {
-		log.Printf("Closing kafka writer for topic '%s'", topic)
+		log.Info().Str("topic", topic).Msg("Closing kafka writer")
 		writer.Close()
 	}
 }
 
-func PrintIntro(role string) {
+func PrintIntro() {
 	appFigure := figure.NewFigure(viper.GetString("application.name"), viper.GetString("application.asciiart.theme"), true)
 	appFigure.Print()
 
-	if role != "" {
-		roleFigure := figure.NewFigure(fmt.Sprintf("Role: %s", role), viper.GetString("application.asciiart.subtheme"), true)
+	if viper.IsSet("role") {
+		roleFigure := figure.NewFigure(fmt.Sprintf("Role: %s", viper.GetString("role")), viper.GetString("application.asciiart.subtheme"), true)
 		roleFigure.Print()
 	}
 }
 
-func initApplicationEnv() {
+func initApplicationEnv(role string) {
 	now := time.Now()
 	viper.SetDefault("env", "staging")
+	viper.SetDefault("role", role)
 	viper.SetDefault("boot.timestamp", now.Unix())
-	log.Printf("Boot timestamp: %s", viper.GetString("boot.timestamp"))
+	log.Debug().Str("Boot timestamp", viper.GetString("boot.timestamp")).Msg("")
 
 	potentialEnv, isEnvSet := os.LookupEnv("APPLICATION_ENV")
 	if isEnvSet {
 		if potentialEnv == "staging" || potentialEnv == "production" {
 			viper.Set("env", potentialEnv)
-			log.Printf("Application environment: %s", viper.GetString("env"))
+			log.Info().Str("env", potentialEnv).Msg("Application environment")
 		} else {
-			log.Fatalf("Unsupported environment: %s", potentialEnv)
+			log.Fatal().Str("env", potentialEnv).Msg("Unsupported environment")
 		}
 	} else {
-		log.Printf("Falling back to default environment: %s", viper.GetString("env"))
+		log.Info().Str("env", viper.GetString("env")).Msg("Falling back to default environment")
 	}
 }
 
@@ -112,20 +117,20 @@ func loadConfigFile(configName string) {
 	// Handle errors reading the config file
 	var err error
 	if loadConfigFileInitialed {
-		log.Printf("Loading config file (merge): %s", configName)
+		log.Debug().Str("config", configName).Msg("Loading config file (merge)")
 		err = viper.MergeInConfig()
 	} else {
 		loadConfigFileInitialed = true
-		log.Printf("Loading config file: %s", configName)
+		log.Debug().Str("config", configName).Msg("Loading config file")
 		err = viper.ReadInConfig()
 	}
 
 	if err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
-			log.Printf("Config file not found: %s/%s.%s", configPath, configName, configType)
+			log.Warn().Str("path", configPath).Str("config", configName).Str("type", configType).Msg("Config file not found")
 		} else {
 			// Config file was found but another error was produced
-			log.Fatalf("Fatal error config file '%s': %s \n", configName, err)
+			log.Fatal().Str("config", configName).Err(err).Msg("Fatal error config file")
 		}
 	}
 }

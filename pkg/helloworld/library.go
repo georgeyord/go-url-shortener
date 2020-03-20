@@ -2,8 +2,9 @@ package helloworld
 
 import (
 	"fmt"
-	"log"
 	"strings"
+
+	"github.com/rs/zerolog/log"
 
 	"github.com/spf13/viper"
 )
@@ -12,10 +13,10 @@ import (
 func GetHelloWorldMessage(name string) string {
 	if name == "" {
 		if viper.IsSet("cmd.helloworld.name.default") {
-			log.Print("Falling back to default 'name' from configuration")
+			log.Debug().Msg("Falling back to default 'name' from configuration")
 			name = viper.GetString("cmd.helloworld.name.default")
 		} else {
-			log.Print("Name is required")
+			log.Info().Msg("Name is required")
 			name = "world"
 		}
 	}

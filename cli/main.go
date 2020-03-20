@@ -6,8 +6,10 @@ import (
 	"github.com/spf13/viper"
 )
 
+const role = "cli"
+
 func main() {
-	config.Init()
+	config.Init(role)
 
 	// Provide db to commands
 	db := config.InitDb()

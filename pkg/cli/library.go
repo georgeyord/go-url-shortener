@@ -3,11 +3,11 @@ package cli
 import (
 	"bufio"
 	"fmt"
-	"log"
 	"os"
 	"strings"
 
 	"github.com/logrusorgru/aurora"
+	"github.com/rs/zerolog/log"
 )
 
 func GetInput(label string) (name string) {
@@ -17,7 +17,7 @@ func GetInput(label string) (name string) {
 		return strings.TrimSpace(scanner.Text())
 	}
 	if err := scanner.Err(); err != nil {
-		log.Fatal("reading standard input:", err)
+		log.Fatal().Err(err).Msg("Reading standard input failed")
 	}
 	return
 }
