@@ -153,9 +153,9 @@ First some technical requirements:
 - Add [HTTP tests](https://github.com/gin-gonic/gin#testing) - Done - Mar 2020
 - Use Godoc to document usage
 - Http Error handling - Done - Mar 2020
-- Use custom logger
+- Use custom logger - Done - Mar 2020
 - Use [Corba](https://github.com/spf13/cobra) for cli - Done - Feb 2020
-- Use Enum for valid application environments
+- Use Enum for valid application environments - Done - Mar 2020
 
 ## Thank you...
 

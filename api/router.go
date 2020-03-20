@@ -5,13 +5,12 @@ import (
 	"github.com/georgeyord/go-url-shortener/pkg/config"
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog/log"
-	"github.com/spf13/viper"
 )
 
 func runRouter() {
 	router := gin.New()
 
-	if viper.GetString("env") == "production" {
+	if config.IsEnv(config.PRODUCTION) {
 		log.Info().Str("mode", gin.ReleaseMode).Msg("Running Gin in production")
 		gin.SetMode(gin.ReleaseMode)
 	}

@@ -17,10 +17,17 @@ import (
 	"github.com/spf13/viper"
 )
 
+const STAGING = "staging"
+const PRODUCTION = "production"
+
 func Init(role string) {
 	initApplicationEnv(role)
 	initConfig()
 	initLogger()
+}
+
+func IsEnv(env string) bool {
+	return viper.GetString("env") == env
 }
 
 func initConfig() {
@@ -87,14 +94,14 @@ func PrintIntro() {
 
 func initApplicationEnv(role string) {
 	now := time.Now()
-	viper.SetDefault("env", "staging")
+	viper.SetDefault("env", STAGING)
 	viper.SetDefault("role", role)
 	viper.SetDefault("boot.timestamp", now.Unix())
 	log.Debug().Str("Boot timestamp", viper.GetString("boot.timestamp")).Msg("")
 
 	potentialEnv, isEnvSet := os.LookupEnv("APPLICATION_ENV")
 	if isEnvSet {
-		if potentialEnv == "staging" || potentialEnv == "production" {
+		if potentialEnv == STAGING || potentialEnv == PRODUCTION {
 			viper.Set("env", potentialEnv)
 			log.Info().Str("env", potentialEnv).Msg("Application environment")
 		} else {
