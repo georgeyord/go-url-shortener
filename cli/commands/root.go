@@ -48,7 +48,7 @@ func printUrlPair(cmd *cobra.Command, args []string) {
 	}
 
 	var writer *kafkalib.Writer
-	statsTopic := viper.GetString("kafka.topics.stats")
+	statsTopic := viper.GetString("kafka.writers.stats.topic")
 	viperStatsWriter := viper.Get(statsTopic)
 	if viperStatsWriter != nil {
 		writer = viperStatsWriter.(*kafkalib.Writer)

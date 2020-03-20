@@ -5,7 +5,9 @@ server:
 application:
   name: Url shortener
   asciiart:
-    theme: hollywood
+    # Choose from: https://github.com/common-nighthawk/go-figure#supported-fonts
+    theme: alphabet
+    subtheme: puffy
 
 db:
   type: sqlite3
@@ -14,14 +16,19 @@ db:
 kafka:
   brokers:
     - 127.0.0.1:9092
-    - 127.0.0.1:9093
-  topics:
-    stats: url-shortener-stats
+  writers:
+    stats:
+      topic: url-shortener-stats
+  readers:
+    stats:
+      topic: url-shortener-stats
+      groupId: stats-readers
   bytes:
     min: 10e3 // 10KB
     max: 10e5 // 1MB
 
 cmd:
-  name:
-    # Comment out to print default name
-    # default: cosmos
+  helloworld:
+    name:
+      # Comment out to print default name
+      default: cosmos

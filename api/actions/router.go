@@ -14,7 +14,7 @@ func SetupMiddlewares(router *gin.Engine, db *gorm.DB, kafkaWriters map[string]*
 		c.Next()
 	})
 	// Provide kafka stats writer to controllers
-	statsTopic := viper.GetString("kafka.topics.stats")
+	statsTopic := viper.GetString("kafka.writers.stats.topic")
 	if kafkaWriters[statsTopic] != nil {
 		router.Use(func(c *gin.Context) {
 			c.Set(statsTopic, kafkaWriters[statsTopic])

@@ -11,9 +11,9 @@ import (
 // Modifies input string 'name' to a 'Hello World!' pattern
 func GetHelloWorldMessage(name string) string {
 	if name == "" {
-		if viper.IsSet("cmd.name.default") {
+		if viper.IsSet("cmd.helloworld.name.default") {
 			log.Print("Falling back to default 'name' from configuration")
-			name = viper.GetString("cmd.name.default")
+			name = viper.GetString("cmd.helloworld.name.default")
 		} else {
 			log.Print("Name is required")
 			name = "world"

@@ -15,7 +15,7 @@ func main() {
 
 	// Provide kafka stats writer to commands
 	kafkaWriters := config.InitKafkaWriters()
-	statsTopic := viper.GetString("kafka.topics.stats")
+	statsTopic := viper.GetString("kafka.writers.stats.topic")
 	if kafkaWriters[statsTopic] == nil {
 		viper.Set(statsTopic, kafkaWriters[statsTopic])
 	}

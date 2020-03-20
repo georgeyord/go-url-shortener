@@ -1,6 +1,8 @@
 package kafka
 
 import (
+	"log"
+
 	"github.com/segmentio/kafka-go"
 	kafkalib "github.com/segmentio/kafka-go"
 	"github.com/segmentio/kafka-go/snappy"
@@ -20,6 +22,7 @@ func NewReader(topic, groupID string) *kafkalib.Reader {
 		MaxBytes: maxBytes,
 	})
 
+	log.Printf("New kafka reader at '%v' with groupId '%s' started for topic '%s'", brokers, groupID, topic)
 	return reader
 }
 
@@ -35,5 +38,6 @@ func NewWriter(topic string) *kafkalib.Writer {
 
 	defer writer.Close()
 
+	log.Printf("New kafka writer at '%v' started for topic '%s'", brokers, topic)
 	return writer
 }

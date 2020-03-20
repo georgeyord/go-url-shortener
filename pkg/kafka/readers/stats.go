@@ -11,18 +11,14 @@ import (
 	_ "github.com/segmentio/kafka-go/snappy"
 )
 
-const topic = "url-shortener-stats"
-const groupID = "stats-consumer"
-
 const retriesThreshold = 10
 const sleepOnError = 2
 
-func RunStatsTopic() {
+func RunStatsReader(topic, groupId string) {
 	var reader *kafkalib.Reader
 
 	for usedRetries := 0; usedRetries < retriesThreshold; usedRetries++ {
-		reader = kafka.NewReader(topic, groupID)
-		log.Printf("New kafka reader with groupID '%s' started for topic '%s'", groupID, topic)
+		reader = kafka.NewReader(topic, groupId)
 
 		for {
 			msg, err := reader.ReadMessage(context.Background())
@@ -34,6 +30,9 @@ func RunStatsTopic() {
 			value := msg.Value
 
 			fmt.Printf("Message: %s\t\t(Topic/partition/offset: %v/%v/%v)\n", string(value), msg.Topic, msg.Partition, msg.Offset)
+			log.Printf("%v", string(msg.Key))
+			log.Printf("%v", msg.Headers)
+			log.Printf("%v", msg.Time)
 		}
 		log.Printf("Sleeping for %d seconds (%d retry)", sleepOnError, usedRetries)
 

@@ -64,7 +64,7 @@ func Redirect(c *gin.Context) {
 		return
 	}
 
-	statsTopic := viper.GetString("kafka.topics.stats")
+	statsTopic := viper.GetString("kafka.writers.stats.topic")
 	writerValue, writerExists := c.Get(statsTopic)
 	if writerExists {
 		writer := writerValue.(*kafkalib.Writer)

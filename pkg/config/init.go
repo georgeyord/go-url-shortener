@@ -56,18 +56,22 @@ func InitDb() *gorm.DB {
 }
 
 func InitKafkaWriters() map[string]*kafkalib.Writer {
-	statsTopic := viper.GetString("kafka.topics.stats")
+	statsTopic := viper.GetString("kafka.writers.stats.topic")
 	statsWriter := kafka.NewWriter(statsTopic)
-	log.Printf("New kafka writer started for topic '%s'", statsTopic)
 
 	return map[string]*kafkalib.Writer{
 		statsTopic: statsWriter,
 	}
 }
 
-func PrintIntro() {
+func PrintIntro(role string) {
 	appFigure := figure.NewFigure(viper.GetString("application.name"), viper.GetString("application.asciiart.theme"), true)
 	appFigure.Print()
+
+	if role != "" {
+		roleFigure := figure.NewFigure(fmt.Sprintf("Role: %s", role), viper.GetString("application.asciiart.subtheme"), true)
+		roleFigure.Print()
+	}
 }
 
 func initApplicationEnv() {
