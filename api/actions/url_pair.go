@@ -71,9 +71,10 @@ func Redirect(c *gin.Context) {
 
 func writeStats(c *gin.Context, urlPair models.UrlPair) {
 	type Message struct {
-		Short string `json:"short"`
-		Long  string `json:"long"`
-		Host  string `json:"host"`
+		Short    string `json:"short"`
+		Long     string `json:"long"`
+		Host     string `json:"host"`
+		ClientIP string `json:"clientIP"`
 	}
 
 	var message Message
@@ -92,6 +93,7 @@ func writeStats(c *gin.Context, urlPair models.UrlPair) {
 		message.Short = urlPair.Short
 		message.Long = urlPair.Long
 		message.Host = c.Request.Host
+		message.ClientIP = c.ClientIP()
 
 		jsonMessage, errJson := json.Marshal(message)
 		if errJson != nil {

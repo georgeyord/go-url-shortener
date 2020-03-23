@@ -56,6 +56,7 @@ func parse(msg kafkalib.Message, topic string) {
 		Str("short", value["short"]).
 		Str("long", value["long"]).
 		Str("host", value["host"]).
+		Str("clientIP", value["clientIP"]).
 		Time("time", msg.Time).
 		Str("topic", msg.Topic).
 		Int("partition", msg.Partition).
